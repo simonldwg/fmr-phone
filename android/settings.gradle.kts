@@ -24,3 +24,13 @@ plugins {
 }
 
 include(":app")
+// include(":fmr-android-core")
+// project(":fmr-android-core").projectDir = File("../submodules/fmr-android-core")
+
+
+includeBuild("../submodules/fmr-android-core") {
+    dependencySubstitution {
+        substitute(module("com.simonludwig:fmr-android-core"))
+            .using(project(":FMRAndroidCore"))
+    }
+}
