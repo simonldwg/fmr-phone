@@ -24,9 +24,6 @@ plugins {
 }
 
 include(":app")
-// include(":fmr-android-core")
-// project(":fmr-android-core").projectDir = File("../submodules/fmr-android-core")
-
 
 includeBuild("../submodules/fmr-android-core") {
     dependencySubstitution {
