@@ -1,0 +1,10 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'settings_controller.dart';
+
+final settingsControllerProvider = ChangeNotifierProvider<SettingsController>((
+  ref,
+) {
+  final controller = SettingsController();
+  controller.initialize();
+  return controller;
+});

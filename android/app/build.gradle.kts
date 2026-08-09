@@ -40,6 +40,9 @@ android {
 
 dependencies {
     implementation("com.simonludwig:fmr-android-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
+    implementation("com.google.android.gms:play-services-wearable:20.0.1")
 }
 
 flutter {
