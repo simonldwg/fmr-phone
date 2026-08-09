@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
 
-import '../../../common/ widgets/confirmation_dialog.dart';
+import '../../../common/widgets/confirmation_dialog.dart';
 import '../../data/settings_controller_provider.dart';
 import '../widgets/settings_section_title.dart';
 
