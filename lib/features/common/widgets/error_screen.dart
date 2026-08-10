@@ -24,7 +24,7 @@ class ErrorScreen extends StatelessWidget {
             width: 120,
             height: 120,
             decoration: BoxDecoration(
-              color: context.theme.colors.destructiveForeground.withValues(
+              color: context.theme.colors.destructive.withValues(
                 alpha: 0.1,
               ),
               shape: BoxShape.circle,
@@ -32,7 +32,7 @@ class ErrorScreen extends StatelessWidget {
             child: Icon(
               FLucideIcons.triangleAlert,
               size: 40,
-              color: context.theme.colors.destructiveForeground,
+              color: context.theme.colors.destructive,
             ),
           ),
           const SizedBox(height: 16),
