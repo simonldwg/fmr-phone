@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
-import 'package:fitness_music_recommender/features/common/domain/models/genre.dart';
+import 'package:fitness_music_recommender/features/library/domain/models/genre.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../data/settings_controller_provider.dart';

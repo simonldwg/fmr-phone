@@ -1,4 +1,4 @@
-import 'package:fitness_music_recommender/features/common/domain/models/genre.dart';
+import 'package:fitness_music_recommender/features/library/domain/models/genre.dart';
 
 import 'fmr_settings.dart';
 
