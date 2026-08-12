@@ -1,3 +1,4 @@
+import 'package:fitness_music_recommender/features/library/ui/pages/album_detail_page.dart';
 import 'package:fitness_music_recommender/features/settings/ui/pages/select_genre_filters_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,7 +6,9 @@ import 'package:go_router/go_router.dart';
 
 import '../core/widgets/scaffold_with_nav_bar.dart';
 import '../features/exercise/ui/exercise_page.dart';
+import '../features/library/domain/models/song.dart';
 import '../features/library/ui/library_page.dart';
+import '../features/library/ui/pages/song_detail_page.dart';
 import '../features/settings/data/settings_controller_provider.dart';
 import '../features/settings/ui/pages/calculate_hr_page.dart';
 import '../features/settings/ui/pages/set_api_url_page.dart';
@@ -64,6 +67,22 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/library',
                 builder: (context, state) => const LibraryPage(),
+                routes: [
+                  GoRoute(
+                    path: '/song',
+                    builder: (context, state) {
+                      final song = state.extra as Song;
+                      return SongDetailPage(song: song);
+                    },
+                  ),
+                  GoRoute(
+                    path: '/albums/:albumId',
+                    builder: (context, state) {
+                      final albumId = state.pathParameters['albumId']!;
+                      return AlbumDetailPage(albumId: albumId);
+                    },
+                  ),
+                ],
               ),
             ],
           ),

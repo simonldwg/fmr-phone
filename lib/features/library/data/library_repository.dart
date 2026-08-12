@@ -1,5 +1,8 @@
 import '../../common/utils/url_resolver.dart';
+
+import '../domain/models/album.dart';
 import '../domain/models/album_short.dart';
+import '../domain/models/song.dart';
 import 'remote/library_api_client.dart';
 
 class LibraryRepository {
@@ -10,13 +13,40 @@ class LibraryRepository {
 
   Future<List<AlbumShort>> getAllAlbums() async {
     final albums = await _client.getAllAlbums();
-    return albums.map(_withResolvedArtwork).toList();
+    return albums.map(_withResolvedArtwork<AlbumShort>).toList();
   }
 
-  AlbumShort _withResolvedArtwork(AlbumShort album) {
-    if (album.artworkUrl != null) {
-      album.artworkUrl = resolveUrl(_baseUrl, album.artworkUrl!);
+  Future<Album> getAlbum(String albumId) async {
+    final album = await _client.getAlbum(albumId);
+    _withResolvedArtwork(album);
+    for (final song in album.songs) {
+      _withResolvedSongUrl(song);
     }
     return album;
+  }
+
+  Future<void> deleteAlbum(String albumId) => _client.deleteAlbum(albumId);
+
+  Future<void> deleteSong(String songId) => _client.deleteSong(songId);
+
+  T _withResolvedArtwork<T extends AlbumShort>(T album) {
+    final url = album.artworkUrl;
+    if (url != null && url.isNotEmpty) {
+      album.artworkUrl = resolveUrl(_baseUrl, url);
+    }
+    return album;
+  }
+
+  Song _withResolvedSongUrl(Song song) {
+    song.songUrl = resolveUrl(_baseUrl, song.songUrl);
+
+    final artworkUrl = song.artworkUrl;
+    if (artworkUrl != null && artworkUrl.isNotEmpty) {
+      song.artworkUrl = resolveUrl(_baseUrl, artworkUrl);
+    }
+
+    _withResolvedArtwork(song.album);
+
+    return song;
   }
 }

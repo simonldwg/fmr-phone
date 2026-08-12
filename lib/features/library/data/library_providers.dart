@@ -2,6 +2,7 @@ import 'package:fitness_music_recommender/features/library/data/remote/library_a
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../common/data/remote/api_base_providers.dart';
+import '../domain/models/album.dart';
 import '../domain/models/album_short.dart';
 import 'library_repository.dart';
 
@@ -13,4 +14,8 @@ final libraryRepositoryProvider = Provider<LibraryRepository>((ref) {
 
 final allAlbumsProvider = FutureProvider<List<AlbumShort>>((ref) {
   return ref.watch(libraryRepositoryProvider).getAllAlbums();
+});
+
+final albumProvider = FutureProvider.family<Album, String>((ref, albumId) {
+  return ref.watch(libraryRepositoryProvider).getAlbum(albumId);
 });
