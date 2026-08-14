@@ -9,6 +9,7 @@ import '../features/exercise/ui/exercise_page.dart';
 import '../features/library/domain/models/song.dart';
 import '../features/library/ui/library_page.dart';
 import '../features/library/ui/pages/song_detail_page.dart';
+import '../features/library/ui/pages/song_upload_page.dart';
 import '../features/settings/data/settings_controller_provider.dart';
 import '../features/settings/ui/pages/calculate_hr_page.dart';
 import '../features/settings/ui/pages/set_api_url_page.dart';
@@ -68,6 +69,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: '/library',
                 builder: (context, state) => const LibraryPage(),
                 routes: [
+                  GoRoute(
+                    path: '/songs/upload',
+                    builder: (context, state) => const SongUploadPage(),
+                  ),
                   GoRoute(
                     path: '/song',
                     builder: (context, state) {
