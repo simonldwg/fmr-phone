@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../../common/utils/url_resolver.dart';
 
 import '../domain/models/album.dart';
@@ -10,6 +12,15 @@ class LibraryRepository {
 
   final LibraryApiClient _client;
   final String _baseUrl;
+
+  Future<AlbumShort> createAlbum({
+    required String albumName,
+    required String artist,
+    File? artworkFile,
+  }) async {
+    final album = await _client.createAlbum(albumName, artist, artworkFile);
+    return _withResolvedArtwork(album);
+  }
 
   Future<List<AlbumShort>> getAllAlbums() async {
     final albums = await _client.getAllAlbums();
@@ -26,6 +37,16 @@ class LibraryRepository {
   }
 
   Future<void> deleteAlbum(String albumId) => _client.deleteAlbum(albumId);
+
+  Future<Song> createSong({
+    required String title,
+    required String artist,
+    required File audioFile,
+    required String albumId,
+  }) async {
+    final song = await _client.createSong(title, artist, audioFile, albumId);
+    return _withResolvedSongUrl(song);
+  }
 
   Future<void> deleteSong(String songId) => _client.deleteSong(songId);
 

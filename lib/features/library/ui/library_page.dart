@@ -18,9 +18,12 @@ class LibraryPage extends ConsumerWidget {
 
     return FScaffold(
       header: FHeader(
-        title: const Text('Alben'),
+        title: const Text('Bibliothek'),
         suffixes: [
-          FHeaderAction(icon: const Icon(FLucideIcons.plus), onPress: () {}),
+          FHeaderAction(
+            icon: const Icon(FLucideIcons.plus),
+            onPress: () => context.push('/library/songs/upload'),
+          ),
         ],
       ),
       childPad: false,
