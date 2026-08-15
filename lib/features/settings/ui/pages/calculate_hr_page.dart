@@ -64,16 +64,11 @@ class _CalculateHrPageState extends ConsumerState<CalculateHrPage> {
 
     int restingHr = int.parse(_restingHrController.text);
 
-    final targetHrModerate =
-        TargetHeartRateCalculator.calculateTargetHrModerate(
-          age: _age,
-          restingHr: restingHr,
-        );
-    final targetHrVigorous =
-        TargetHeartRateCalculator.calculateTargetHrVigorous(
-          age: _age,
-          restingHr: restingHr,
-        );
+    TargetHeartRateCalculator calculator =
+        TargetHeartRateCalculator.getCalculator(_age, restingHr);
+
+    final targetHrModerate = calculator.calculateTargetHrModerate();
+    final targetHrVigorous = calculator.calculateTargetHrVigorous();
 
     final settingsController = ref.read(settingsControllerProvider);
 
