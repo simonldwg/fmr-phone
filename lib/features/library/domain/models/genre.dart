@@ -68,7 +68,6 @@ enum Genre {
   @JsonValue('House')
   house;
 
-  /// Der Anzeige-/Serialisierungs-Text, identisch zum bisherigen String-Wert.
   String get label => switch (this) {
     Genre.rock => 'Rock',
     Genre.pop => 'Pop',
