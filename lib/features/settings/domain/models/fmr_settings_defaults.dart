@@ -1,3 +1,4 @@
+import 'filters.dart';
 import 'fmr_settings.dart';
 
 class SettingsDefaults {

@@ -3,6 +3,174 @@
 part of 'fmr_settings.dart';
 
 // **************************************************************************
+// CopyWithGenerator
+// **************************************************************************
+
+abstract class _$FMRSettingsCWProxy {
+  FMRSettings apiUrl(String apiUrl);
+
+  FMRSettings useBasicExerciseScreen(bool useBasicExerciseScreen);
+
+  FMRSettings targetHrModerate(int targetHrModerate);
+
+  FMRSettings targetHrVigorous(int targetHrVigorous);
+
+  FMRSettings arousalWeight(double arousalWeight);
+
+  FMRSettings bpmWeight(double bpmWeight);
+
+  FMRSettings filters(Filters filters);
+
+  FMRSettings allowMultiplePlays(bool allowMultiplePlays);
+
+  FMRSettings initialBpmModerate(int initialBpmModerate);
+
+  FMRSettings initialBpmVigorous(int initialBpmVigorous);
+
+  /// Creates a new instance with the provided field values.
+  /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `FMRSettings(...).copyWith.fieldName(value)`.
+  ///
+  /// Example:
+  /// ```dart
+  /// FMRSettings(...).copyWith(id: 12, name: "My name")
+  /// ```
+  FMRSettings call({
+    String apiUrl,
+    bool useBasicExerciseScreen,
+    int targetHrModerate,
+    int targetHrVigorous,
+    double arousalWeight,
+    double bpmWeight,
+    Filters filters,
+    bool allowMultiplePlays,
+    int initialBpmModerate,
+    int initialBpmVigorous,
+  });
+}
+
+/// Callable proxy for `copyWith` functionality.
+/// Use as `instanceOfFMRSettings.copyWith(...)` or call `instanceOfFMRSettings.copyWith.fieldName(value)` for a single field.
+class _$FMRSettingsCWProxyImpl implements _$FMRSettingsCWProxy {
+  const _$FMRSettingsCWProxyImpl(this._value);
+
+  final FMRSettings _value;
+
+  @override
+  FMRSettings apiUrl(String apiUrl) => call(apiUrl: apiUrl);
+
+  @override
+  FMRSettings useBasicExerciseScreen(bool useBasicExerciseScreen) =>
+      call(useBasicExerciseScreen: useBasicExerciseScreen);
+
+  @override
+  FMRSettings targetHrModerate(int targetHrModerate) =>
+      call(targetHrModerate: targetHrModerate);
+
+  @override
+  FMRSettings targetHrVigorous(int targetHrVigorous) =>
+      call(targetHrVigorous: targetHrVigorous);
+
+  @override
+  FMRSettings arousalWeight(double arousalWeight) =>
+      call(arousalWeight: arousalWeight);
+
+  @override
+  FMRSettings bpmWeight(double bpmWeight) => call(bpmWeight: bpmWeight);
+
+  @override
+  FMRSettings filters(Filters filters) => call(filters: filters);
+
+  @override
+  FMRSettings allowMultiplePlays(bool allowMultiplePlays) =>
+      call(allowMultiplePlays: allowMultiplePlays);
+
+  @override
+  FMRSettings initialBpmModerate(int initialBpmModerate) =>
+      call(initialBpmModerate: initialBpmModerate);
+
+  @override
+  FMRSettings initialBpmVigorous(int initialBpmVigorous) =>
+      call(initialBpmVigorous: initialBpmVigorous);
+
+  /// Creates a new instance with the provided field values.
+  /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `FMRSettings(...).copyWith.fieldName(value)`.
+  ///
+  /// Example:
+  /// ```dart
+  /// FMRSettings(...).copyWith(id: 12, name: "My name")
+  /// ```
+  @override
+  FMRSettings call({
+    Object? apiUrl = const $CopyWithPlaceholder(),
+    Object? useBasicExerciseScreen = const $CopyWithPlaceholder(),
+    Object? targetHrModerate = const $CopyWithPlaceholder(),
+    Object? targetHrVigorous = const $CopyWithPlaceholder(),
+    Object? arousalWeight = const $CopyWithPlaceholder(),
+    Object? bpmWeight = const $CopyWithPlaceholder(),
+    Object? filters = const $CopyWithPlaceholder(),
+    Object? allowMultiplePlays = const $CopyWithPlaceholder(),
+    Object? initialBpmModerate = const $CopyWithPlaceholder(),
+    Object? initialBpmVigorous = const $CopyWithPlaceholder(),
+  }) {
+    return FMRSettings(
+      apiUrl == const $CopyWithPlaceholder() || apiUrl == null
+          ? _value.apiUrl
+          // ignore: cast_nullable_to_non_nullable
+          : apiUrl as String,
+      useBasicExerciseScreen == const $CopyWithPlaceholder() ||
+              useBasicExerciseScreen == null
+          ? _value.useBasicExerciseScreen
+          // ignore: cast_nullable_to_non_nullable
+          : useBasicExerciseScreen as bool,
+      targetHrModerate == const $CopyWithPlaceholder() ||
+              targetHrModerate == null
+          ? _value.targetHrModerate
+          // ignore: cast_nullable_to_non_nullable
+          : targetHrModerate as int,
+      targetHrVigorous == const $CopyWithPlaceholder() ||
+              targetHrVigorous == null
+          ? _value.targetHrVigorous
+          // ignore: cast_nullable_to_non_nullable
+          : targetHrVigorous as int,
+      arousalWeight == const $CopyWithPlaceholder() || arousalWeight == null
+          ? _value.arousalWeight
+          // ignore: cast_nullable_to_non_nullable
+          : arousalWeight as double,
+      bpmWeight == const $CopyWithPlaceholder() || bpmWeight == null
+          ? _value.bpmWeight
+          // ignore: cast_nullable_to_non_nullable
+          : bpmWeight as double,
+      filters == const $CopyWithPlaceholder() || filters == null
+          ? _value.filters
+          // ignore: cast_nullable_to_non_nullable
+          : filters as Filters,
+      allowMultiplePlays == const $CopyWithPlaceholder() ||
+              allowMultiplePlays == null
+          ? _value.allowMultiplePlays
+          // ignore: cast_nullable_to_non_nullable
+          : allowMultiplePlays as bool,
+      initialBpmModerate == const $CopyWithPlaceholder() ||
+              initialBpmModerate == null
+          ? _value.initialBpmModerate
+          // ignore: cast_nullable_to_non_nullable
+          : initialBpmModerate as int,
+      initialBpmVigorous == const $CopyWithPlaceholder() ||
+              initialBpmVigorous == null
+          ? _value.initialBpmVigorous
+          // ignore: cast_nullable_to_non_nullable
+          : initialBpmVigorous as int,
+    );
+  }
+}
+
+extension $FMRSettingsCopyWith on FMRSettings {
+  /// Returns a callable class used to build a new instance with modified fields.
+  /// Example: `instanceOfFMRSettings.copyWith(...)` or `instanceOfFMRSettings.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
+  _$FMRSettingsCWProxy get copyWith => _$FMRSettingsCWProxyImpl(this);
+}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
@@ -32,77 +200,3 @@ Map<String, dynamic> _$FMRSettingsToJson(FMRSettings instance) =>
       'initialBpmModerate': instance.initialBpmModerate,
       'initialBpmVigorous': instance.initialBpmVigorous,
     };
-
-Filters _$FiltersFromJson(Map<String, dynamic> json) => Filters(
-  (json['genres'] as List<dynamic>)
-      .map((e) => $enumDecode(_$GenreEnumMap, e))
-      .toSet(),
-  LengthFilter.fromJson(json['songLength'] as Map<String, dynamic>),
-  FeatureFilter.fromJson(json['valence'] as Map<String, dynamic>),
-  FeatureFilter.fromJson(json['authenticity'] as Map<String, dynamic>),
-  FeatureFilter.fromJson(json['timeliness'] as Map<String, dynamic>),
-  FeatureFilter.fromJson(json['complexity'] as Map<String, dynamic>),
-  FeatureFilter.fromJson(json['danceability'] as Map<String, dynamic>),
-  FeatureFilter.fromJson(json['tonal'] as Map<String, dynamic>),
-  FeatureFilter.fromJson(json['voice'] as Map<String, dynamic>),
-);
-
-Map<String, dynamic> _$FiltersToJson(Filters instance) => <String, dynamic>{
-  'genres': instance.genres.map((e) => _$GenreEnumMap[e]!).toList(),
-  'songLength': instance.songLength,
-  'valence': instance.valence,
-  'authenticity': instance.authenticity,
-  'timeliness': instance.timeliness,
-  'complexity': instance.complexity,
-  'danceability': instance.danceability,
-  'tonal': instance.tonal,
-  'voice': instance.voice,
-};
-
-const _$GenreEnumMap = {
-  Genre.rock: 'Rock',
-  Genre.pop: 'Pop',
-  Genre.alternative: 'Alternative',
-  Genre.indie: 'Indie',
-  Genre.electronic: 'Electronic',
-  Genre.dance: 'Dance',
-  Genre.alternativeRock: 'Alternative Rock',
-  Genre.jazz: 'Jazz',
-  Genre.metal: 'Metal',
-  Genre.chillout: 'Chillout',
-  Genre.classicRock: 'Classic Rock',
-  Genre.soul: 'Soul',
-  Genre.indieRock: 'Indie Rock',
-  Genre.electronica: 'Electronica',
-  Genre.folk: 'Folk',
-  Genre.chill: 'Chill',
-  Genre.instrumental: 'Instrumental',
-  Genre.punk: 'Punk',
-  Genre.blues: 'Blues',
-  Genre.hardRock: 'Hard Rock',
-  Genre.ambient: 'Ambient',
-  Genre.acoustic: 'Acoustic',
-  Genre.experimental: 'Experimental',
-  Genre.hipHop: 'Hip-Hop',
-  Genre.country: 'Country',
-  Genre.easyListening: 'Easy Listening',
-  Genre.funk: 'Funk',
-  Genre.electro: 'Electro',
-  Genre.heavyMetal: 'Heavy Metal',
-  Genre.progressiveRock: 'Progressive Rock',
-  Genre.rnb: 'RnB',
-  Genre.indiePop: 'Indie Pop',
-  Genre.house: 'House',
-};
-
-LengthFilter _$LengthFilterFromJson(Map<String, dynamic> json) =>
-    LengthFilter((json['seconds'] as num).toInt(), json['enabled'] as bool);
-
-Map<String, dynamic> _$LengthFilterToJson(LengthFilter instance) =>
-    <String, dynamic>{'seconds': instance.seconds, 'enabled': instance.enabled};
-
-FeatureFilter _$FeatureFilterFromJson(Map<String, dynamic> json) =>
-    FeatureFilter((json['value'] as num).toDouble(), json['enabled'] as bool);
-
-Map<String, dynamic> _$FeatureFilterToJson(FeatureFilter instance) =>
-    <String, dynamic>{'value': instance.value, 'enabled': instance.enabled};

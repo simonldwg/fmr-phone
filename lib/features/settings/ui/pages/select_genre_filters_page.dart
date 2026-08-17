@@ -6,6 +6,7 @@ import 'package:fitness_music_recommender/features/library/domain/models/genre.d
 import 'package:go_router/go_router.dart';
 
 import '../../data/settings_controller_provider.dart';
+import '../../domain/models/filters.dart';
 
 class SelectGenreFiltersPage extends ConsumerStatefulWidget {
   const SelectGenreFiltersPage({super.key});

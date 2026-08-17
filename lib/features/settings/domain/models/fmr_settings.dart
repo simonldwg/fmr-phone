@@ -1,5 +1,7 @@
-import 'package:fitness_music_recommender/features/library/domain/models/genre.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'filters.dart';
 
 part 'fmr_settings.g.dart';
 
@@ -11,6 +13,7 @@ part 'fmr_settings.g.dart';
 // To perform code generation once, run:
 // dart run build_runner build
 
+@CopyWith()
 @JsonSerializable()
 class FMRSettings {
   String apiUrl;
@@ -41,82 +44,4 @@ class FMRSettings {
       _$FMRSettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$FMRSettingsToJson(this);
-}
-
-@JsonSerializable()
-class Filters {
-  Set<Genre> genres;
-  LengthFilter songLength;
-  FeatureFilter valence;
-  FeatureFilter authenticity;
-  FeatureFilter timeliness;
-  FeatureFilter complexity;
-  FeatureFilter danceability;
-  FeatureFilter tonal;
-  FeatureFilter voice;
-
-  Filters(
-    this.genres,
-    this.songLength,
-    this.valence,
-    this.authenticity,
-    this.timeliness,
-    this.complexity,
-    this.danceability,
-    this.tonal,
-    this.voice,
-  );
-
-  Filters copyWith({
-    Set<Genre>? genres,
-    LengthFilter? songLength,
-    FeatureFilter? valence,
-    FeatureFilter? authenticity,
-    FeatureFilter? timeliness,
-    FeatureFilter? complexity,
-    FeatureFilter? danceability,
-    FeatureFilter? tonal,
-    FeatureFilter? voice,
-  }) => Filters(
-    genres ?? this.genres,
-    songLength ?? this.songLength,
-    valence ?? this.valence,
-    authenticity ?? this.authenticity,
-    timeliness ?? this.timeliness,
-    complexity ?? this.complexity,
-    danceability ?? this.danceability,
-    tonal ?? this.tonal,
-    voice ?? this.voice,
-  );
-
-  factory Filters.fromJson(Map<String, dynamic> json) =>
-      _$FiltersFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FiltersToJson(this);
-}
-
-@JsonSerializable()
-class LengthFilter {
-  int seconds;
-  bool enabled;
-
-  LengthFilter(this.seconds, this.enabled);
-
-  factory LengthFilter.fromJson(Map<String, dynamic> json) =>
-      _$LengthFilterFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LengthFilterToJson(this);
-}
-
-@JsonSerializable()
-class FeatureFilter {
-  double value;
-  bool enabled;
-
-  FeatureFilter(this.value, this.enabled);
-
-  factory FeatureFilter.fromJson(Map<String, dynamic> json) =>
-      _$FeatureFilterFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FeatureFilterToJson(this);
 }

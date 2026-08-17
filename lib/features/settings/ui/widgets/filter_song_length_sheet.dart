@@ -5,6 +5,7 @@ import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../data/settings_controller_provider.dart';
+import '../../domain/models/filters.dart';
 
 class FilterSongLengthSheet extends ConsumerStatefulWidget {
   const FilterSongLengthSheet({super.key});

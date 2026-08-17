@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../domain/models/filters.dart';
 import '../domain/models/fmr_settings.dart';
 import 'settings_repository.dart';
 
