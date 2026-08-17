@@ -1,10 +1,11 @@
+import 'package:fitness_music_recommender/features/common/ui/widgets/small_description_text.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
 
 import '../../../common/ui/widgets/confirmation_dialog.dart';
 import '../../data/settings_controller_provider.dart';
-import '../widgets/settings_section_title.dart';
+import '../../../common/ui/widgets/section_title.dart';
 
 class ResetSettingsSection extends ConsumerWidget {
   const ResetSettingsSection({super.key});
@@ -29,7 +30,7 @@ class ResetSettingsSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SettingsSectionTitle('Werkseinstellungen'),
+        const SectionTitle('Werkseinstellungen'),
         FTileGroup(
           children: [
             .tile(
@@ -46,12 +47,7 @@ class ResetSettingsSection extends ConsumerWidget {
           ],
         ),
         const SizedBox(height: 12),
-        Text(
-          'Dadurch werden lediglich alle Einstellungen gelöscht. Deine Musik bleibt erhalten.',
-          style: context.theme.typography.body.xs.copyWith(
-            color: context.theme.colors.mutedForeground,
-          ),
-        ),
+        const SmallDescriptionText('Dadurch werden lediglich die App-Einstellungen gelöscht. Deine Musik bleibt erhalten.'),
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:fitness_music_recommender/features/common/ui/widgets/small_description_text.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
@@ -5,7 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../data/settings_controller_provider.dart';
 import '../widgets/edit_number_value_sheet.dart';
-import '../widgets/settings_section_title.dart';
+import '../../../common/ui/widgets/section_title.dart';
 
 class ExerciseSettingsSection extends ConsumerWidget {
   const ExerciseSettingsSection({super.key});
@@ -20,7 +21,7 @@ class ExerciseSettingsSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SettingsSectionTitle('Trainingseinstellungen'),
+        const SectionTitle('Trainingseinstellungen'),
         Row(
           children: [
             Expanded(
@@ -38,12 +39,7 @@ class ExerciseSettingsSection extends ConsumerWidget {
           ],
         ),
         const SizedBox(height: 12),
-        Text(
-          'Wenn aktiviert, wird während des Trainings in der Smartwatch-App nur ein großer Button zum Überspringen des aktuellen Songs angezeigt.',
-          style: theme.typography.body.xs.copyWith(
-            color: theme.colors.mutedForeground,
-          ),
-        ),
+        const SmallDescriptionText('Wenn aktiviert, wird während des Trainings in der Smartwatch-App nur ein großer Button zum Überspringen des aktuellen Songs angezeigt.'),
         const SizedBox(height: 24),
         FTileGroup(
           label: const Text('Ziel-Herzfrequenzen'),
@@ -55,7 +51,6 @@ class ExerciseSettingsSection extends ConsumerWidget {
               suffix: const Icon(FLucideIcons.chevronRight),
               onPress: () => showEditNumberValueSheet(
                 context: context,
-
                 title: 'Moderates Training',
                 description:
                     'Lege die Ziel-Herzfrequenz für moderates Training fest.',

@@ -1,3 +1,4 @@
+import 'package:fitness_music_recommender/features/common/ui/widgets/small_description_text.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
@@ -62,12 +63,7 @@ class InitialValuesSettings extends ConsumerWidget {
           ],
         ),
         const SizedBox(height: 12),
-        Text(
-          'Passt die Songtempo-Werte an, die in die erste Songempfehlung zu Beginn des Trainings einfließen. In die erste Song-Empfehlung fließt nur das Songtempo ein, nicht der Arousal-Wert.',
-          style: context.theme.typography.body.xs.copyWith(
-            color: context.theme.colors.mutedForeground,
-          ),
-        ),
+        const SmallDescriptionText('Passt die Songtempo-Werte an, die in die erste Songempfehlung zu Beginn des Trainings einfließen. In die erste Song-Empfehlung fließt nur das Songtempo ein, nicht der Arousal-Wert.'),
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:fitness_music_recommender/features/common/ui/widgets/small_description_text.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
@@ -98,38 +99,14 @@ class SongDetailPage extends ConsumerWidget {
             style: typography.body.sm.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
-          Text(
-            'Arousal: ${song.features.arousal}',
-            style: typography.body.xs.copyWith(color: colors.mutedForeground),
-          ),
-          Text(
-            'Valence: ${song.features.valence}',
-            style: typography.body.xs.copyWith(color: colors.mutedForeground),
-          ),
-          Text(
-            'Authenticity: ${song.features.authenticity}',
-            style: typography.body.xs.copyWith(color: colors.mutedForeground),
-          ),
-          Text(
-            'Timeliness: ${song.features.timeliness}',
-            style: typography.body.xs.copyWith(color: colors.mutedForeground),
-          ),
-          Text(
-            'Complexity: ${song.features.complexity}',
-            style: typography.body.xs.copyWith(color: colors.mutedForeground),
-          ),
-          Text(
-            'Danceability: ${song.features.danceability}',
-            style: typography.body.xs.copyWith(color: colors.mutedForeground),
-          ),
-          Text(
-            'Tonal: ${song.features.tonal}',
-            style: typography.body.xs.copyWith(color: colors.mutedForeground),
-          ),
-          Text(
-            'Voice: ${song.features.voice}',
-            style: typography.body.xs.copyWith(color: colors.mutedForeground),
-          ),
+          SmallDescriptionText('Arousal: ${song.features.arousal}'),
+          SmallDescriptionText('Valence: ${song.features.valence}'),
+          SmallDescriptionText('Authenticity: ${song.features.authenticity}'),
+          SmallDescriptionText('Timeliness: ${song.features.timeliness}'),
+          SmallDescriptionText('Complexity: ${song.features.complexity}'),
+          SmallDescriptionText('Danceability: ${song.features.danceability}'),
+          SmallDescriptionText('Tonal: ${song.features.tonal}'),
+          SmallDescriptionText('Voice: ${song.features.voice}'),
           const SizedBox(height: 24),
           Text(
             'Top-Genres',

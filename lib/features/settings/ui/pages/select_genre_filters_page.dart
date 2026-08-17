@@ -1,3 +1,4 @@
+import 'package:fitness_music_recommender/features/common/ui/widgets/small_description_text.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
@@ -59,13 +60,10 @@ class _SelectGenreFiltersPageState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const SmallDescriptionText(
               'Wähle die Genres aus, aus denen Musik gespielt werden soll. '
               'Wenn du keine Genres auswählst, wird aus allen Genres Musik '
               'gespielt.',
-              style: context.theme.typography.body.xs.copyWith(
-                color: context.theme.colors.mutedForeground,
-              ),
             ),
             const SizedBox(height: 16),
             FSelectGroup<Genre>(

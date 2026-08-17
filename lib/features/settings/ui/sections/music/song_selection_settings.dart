@@ -1,9 +1,10 @@
+import 'package:fitness_music_recommender/features/common/ui/widgets/small_description_text.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
 
 import '../../../data/settings_controller_provider.dart';
-import '../../widgets/settings_section_title.dart';
+import '../../../../common/ui/widgets/section_title.dart';
 
 class SongSelectionSettings extends ConsumerWidget {
   const SongSelectionSettings({super.key});
@@ -16,7 +17,7 @@ class SongSelectionSettings extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SettingsSectionTitle('Songauswahl', smallSize: true),
+        const SectionTitle('Songauswahl', smallSize: true),
         Row(
           children: [
             Expanded(
@@ -34,12 +35,7 @@ class SongSelectionSettings extends ConsumerWidget {
           ],
         ),
         const SizedBox(height: 12),
-        Text(
-          'Wenn du diese Einstellung aktivierst, können Songs auch mehrfach während eines Trainings abgespielt werden.',
-          style: context.theme.typography.body.xs.copyWith(
-            color: context.theme.colors.mutedForeground,
-          ),
-        ),
+        const SmallDescriptionText('Wenn du diese Einstellung aktivierst, können Songs auch mehrfach während eines Trainings abgespielt werden.'),
       ],
     );
   }

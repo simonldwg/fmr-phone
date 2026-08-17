@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:forui/forui.dart';
 
-import '../widgets/settings_section_title.dart';
+import '../../../common/ui/widgets/section_title.dart';
+import '../../../common/ui/widgets/small_description_text.dart';
 
 class TroubleshootingSection extends StatelessWidget {
   const TroubleshootingSection({super.key});
@@ -11,7 +12,7 @@ class TroubleshootingSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SettingsSectionTitle('Fehlerbehebung'),
+        const SectionTitle('Fehlerbehebung'),
         FTileGroup(
           children: [
             .tile(
@@ -24,12 +25,7 @@ class TroubleshootingSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 12),
-        Text(
-          'Sorgt dafür, dass ein fälschlicherweise noch laufendes Training auf der Uhr beendet wird.',
-          style: context.theme.typography.body.xs.copyWith(
-            color: context.theme.colors.mutedForeground,
-          ),
-        ),
+        const SmallDescriptionText('Sorgt dafür, dass ein fälschlicherweise noch laufendes Training auf der Uhr beendet wird.'),
       ],
     );
   }

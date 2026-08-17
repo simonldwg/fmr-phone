@@ -1,3 +1,4 @@
+import 'package:fitness_music_recommender/features/common/ui/widgets/small_description_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
@@ -136,12 +137,7 @@ class _CalculateHrPageState extends ConsumerState<CalculateHrPage> {
           child: Column(
             mainAxisAlignment: .start,
             children: [
-              Text(
-                'Aus diesen Angaben werden die Ziel-Herzfrequenzen für moderates und starkes Training berechnet. Die Werte können in den Einstellungen später auch manuell festgelegt werden.',
-                style: context.theme.typography.body.xs.copyWith(
-                  color: context.theme.colors.mutedForeground,
-                ),
-              ),
+              const SmallDescriptionText('Aus diesen Angaben werden die Ziel-Herzfrequenzen für moderates und starkes Training berechnet. Die Werte können in den Einstellungen später auch manuell festgelegt werden.'),
               const SizedBox(height: 16),
               FTextFormField(
                 control: .managed(),
@@ -179,12 +175,7 @@ class _CalculateHrPageState extends ConsumerState<CalculateHrPage> {
                 ],
               ),
               const SizedBox(height: 16),
-              Text(
-                'Die Ruheherzfrequenz kann manuell eingetragen oder aus den Gesundheitsdaten deines Smartphones ausgelesen werden.',
-                style: context.theme.typography.body.xs.copyWith(
-                  color: context.theme.colors.mutedForeground,
-                ),
-              ),
+              const SmallDescriptionText('Die Ruheherzfrequenz kann manuell eingetragen oder aus den Gesundheitsdaten deines Smartphones ausgelesen werden.'),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: .end,

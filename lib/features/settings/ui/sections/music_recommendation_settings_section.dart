@@ -4,7 +4,7 @@ import 'music/initial_values_settings.dart';
 import 'music/filter_settings.dart';
 import 'music/song_selection_settings.dart';
 import 'music/weight_settings.dart';
-import '../widgets/settings_section_title.dart';
+import '../../../common/ui/widgets/section_title.dart';
 
 class MusicRecommendationSettingsSection extends StatelessWidget {
   const MusicRecommendationSettingsSection({super.key});
@@ -13,7 +13,7 @@ class MusicRecommendationSettingsSection extends StatelessWidget {
   Widget build(BuildContext context) => const Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-      SettingsSectionTitle('Musikempfehlung'),
+      SectionTitle('Musikempfehlung'),
       WeightSettings(),
       SizedBox(height: 24),
       FilterSettings(),

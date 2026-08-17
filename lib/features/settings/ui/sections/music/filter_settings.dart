@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../../../data/settings_controller_provider.dart';
 import '../../../domain/models/fmr_settings.dart';
 import '../../widgets/setting_slider.dart';
-import '../../widgets/settings_section_title.dart';
+import '../../../../common/ui/widgets/section_title.dart';
 
 class FilterSettings extends ConsumerWidget {
   const FilterSettings({super.key});
@@ -26,7 +26,7 @@ class FilterSettings extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SettingsSectionTitle('Filter', smallSize: true),
+        const SectionTitle('Filter', smallSize: true),
         FTileGroup(
           children: [
             .tile(

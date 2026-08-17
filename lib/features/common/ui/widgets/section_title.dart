@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:forui/forui.dart';
 
-class SettingsSectionTitle extends StatelessWidget {
-  const SettingsSectionTitle(this.title, {super.key, this.smallSize = false});
+class SectionTitle extends StatelessWidget {
+  const SectionTitle(this.title, {super.key, this.smallSize = false});
 
   final String title;
   final bool smallSize;
