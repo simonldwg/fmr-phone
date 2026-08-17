@@ -4,7 +4,7 @@ import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../common/ui/widgets/ellipse_menu.dart';
-import '../../domain/models/formatting.dart';
+import '../../domain/models/extensions/formatting.dart';
 import '../../domain/models/genre.dart';
 import '../../domain/models/song.dart';
 import '../actions/delete_actions.dart';
@@ -51,10 +51,7 @@ class SongDetailPage extends ConsumerWidget {
               height: 180,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: ArtworkImage(
-                  url: song.artworkUrl ?? song.album.artworkUrl,
-                  iconSize: 56,
-                ),
+                child: ArtworkImage(url: song.album.artworkUrl, iconSize: 56),
               ),
             ),
           ),

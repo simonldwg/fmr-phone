@@ -15,7 +15,6 @@ class Song {
   SongFeatures features;
   SongGenres genres;
   String songUrl;
-  String? artworkUrl;
 
   Song(
     this.id,
@@ -26,9 +25,17 @@ class Song {
     this.features,
     this.genres,
     this.songUrl,
-    this.artworkUrl,
   );
 
   factory Song.fromJson(Map<String, dynamic> json) => _$SongFromJson(json);
   Map<String, dynamic> toJson() => _$SongToJson(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! Song) return false;
+    return other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../common/ui/widgets/ellipse_menu.dart';
 import '../../../common/ui/widgets/error_screen.dart';
+import '../../../playback/playback_providers.dart';
 import '../../data/library_providers.dart';
 import '../../domain/models/album.dart';
 import '../actions/delete_actions.dart';
@@ -88,30 +89,35 @@ class _AlbumBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.theme.colors;
     final topPadding = MediaQuery.paddingOf(context).top + 72;
+    final currentSong = ref.watch(currentSongProvider);
 
     return ListView(
       padding: EdgeInsets.zero,
       children: [
         AlbumHero(album: album, topPadding: topPadding),
         Container(color: colors.background, height: 24),
-        (album.songs.isEmpty)
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Center(
-                  child: Text('Dieses Album hat (noch) keine Songs.'),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: (album.songs.isEmpty)
+              ? Center(child: Text('Dieses Album hat (noch) keine Songs.'))
+              : FItemGroup(
+                  children: [
+                    for (final (index, song) in album.songs.indexed)
+                      songTile(
+                        song,
+                        onPlay: () => ref
+                            .read(libraryPlaybackProvider)
+                            .playAlbumFrom(album, index),
+                        onDelete: () =>
+                            confirmAndDeleteSong(context, ref, song),
+                        onShowDetails: () =>
+                            context.push('/library/song', extra: song),
+                        isPlaying: (currentSong == song),
+                        theme: context.theme,
+                      ),
+                  ],
                 ),
-              )
-            : FItemGroup(
-                children: [
-                  for (final song in album.songs)
-                    songTile(
-                      song,
-                      onDelete: () => confirmAndDeleteSong(context, ref, song),
-                      onShowDetails: () =>
-                          context.push('/library/song', extra: song),
-                    ),
-                ],
-              ),
+        ),
         const SizedBox(height: 16),
       ],
     );

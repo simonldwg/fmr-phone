@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:fitness_music_recommender/features/settings/domain/models/formatting.dart';
+import 'package:fitness_music_recommender/features/settings/domain/models/extensions/formatting.dart';
 import 'package:fitness_music_recommender/features/settings/ui/widgets/filter_song_length_sheet.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

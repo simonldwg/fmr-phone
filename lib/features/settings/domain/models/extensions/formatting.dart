@@ -1,7 +1,7 @@
 import 'package:fitness_music_recommender/features/library/domain/models/genre.dart';
 import 'package:fitness_music_recommender/features/common/utils/duration_formatting.dart';
 
-import 'fmr_settings.dart';
+import '../fmr_settings.dart';
 
 extension LengthFilterFormatting on LengthFilter {
   String get statusLabel {

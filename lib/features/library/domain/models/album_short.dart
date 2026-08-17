@@ -14,4 +14,13 @@ class AlbumShort {
   factory AlbumShort.fromJson(Map<String, dynamic> json) =>
       _$AlbumShortFromJson(json);
   Map<String, dynamic> toJson() => _$AlbumShortToJson(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! AlbumShort) return false;
+    return other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

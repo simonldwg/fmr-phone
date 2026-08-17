@@ -1,17 +1,19 @@
 import 'dart:ui';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
+import '../../../playback/playback_providers.dart';
 import '../../domain/models/album.dart';
 import 'artwork_image.dart';
 
-class AlbumHero extends StatelessWidget {
+class AlbumHero extends ConsumerWidget {
   const AlbumHero({required this.album, required this.topPadding, super.key});
 
   final Album album;
   final double topPadding;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.theme.colors;
     final typography = context.theme.typography;
 
@@ -74,11 +76,13 @@ class AlbumHero extends StatelessWidget {
               FButton(
                 variant: .primary,
                 mainAxisSize: .min,
-                onPress: () {
-                  // TODO: play the whole album
-                },
+                onPress: (album.songs.isEmpty)
+                    ? null
+                    : () {
+                        ref.read(libraryPlaybackProvider).playAlbum(album);
+                      },
                 prefix: const Icon(FLucideIcons.play),
-                child: const Text('Abspielen'),
+                child: const Text('Album abspielen'),
               ),
             ],
           ),

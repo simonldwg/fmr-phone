@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../../common/utils/url_resolver.dart';
+import 'package:fitness_music_recommender/features/library/domain/models/extensions/url_resolver.dart';
 
 import '../domain/models/album.dart';
 import '../domain/models/album_short.dart';
@@ -19,19 +19,25 @@ class LibraryRepository {
     File? artworkFile,
   }) async {
     final album = await _client.createAlbum(albumName, artist, artworkFile);
-    return _withResolvedArtwork(album);
+    album.resolveUrls(_baseUrl);
+    return album;
   }
 
   Future<List<AlbumShort>> getAllAlbums() async {
     final albums = await _client.getAllAlbums();
-    return albums.map(_withResolvedArtwork<AlbumShort>).toList();
+
+    for (final album in albums) {
+      album.resolveUrls(_baseUrl);
+    }
+
+    return albums;
   }
 
   Future<Album> getAlbum(String albumId) async {
     final album = await _client.getAlbum(albumId);
-    _withResolvedArtwork(album);
+    album.resolveUrls(_baseUrl);
     for (final song in album.songs) {
-      _withResolvedSongUrl(song);
+      song.resolveUrls(_baseUrl);
     }
     return album;
   }
@@ -45,29 +51,9 @@ class LibraryRepository {
     required String albumId,
   }) async {
     final song = await _client.createSong(title, artist, audioFile, albumId);
-    return _withResolvedSongUrl(song);
+    song.resolveUrls(_baseUrl);
+    return song;
   }
 
   Future<void> deleteSong(String songId) => _client.deleteSong(songId);
-
-  T _withResolvedArtwork<T extends AlbumShort>(T album) {
-    final url = album.artworkUrl;
-    if (url != null && url.isNotEmpty) {
-      album.artworkUrl = resolveUrl(_baseUrl, url);
-    }
-    return album;
-  }
-
-  Song _withResolvedSongUrl(Song song) {
-    song.songUrl = resolveUrl(_baseUrl, song.songUrl);
-
-    final artworkUrl = song.artworkUrl;
-    if (artworkUrl != null && artworkUrl.isNotEmpty) {
-      song.artworkUrl = resolveUrl(_baseUrl, artworkUrl);
-    }
-
-    _withResolvedArtwork(song.album);
-
-    return song;
-  }
 }

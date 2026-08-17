@@ -4,14 +4,14 @@ import com.simonludwig.fitnessmusicrecommender.messages.WearMessageManager
 import com.simonludwig.fitnessmusicrecommender.di.JsonModule
 import com.simonludwig.fitnessmusicrecommender.messages.ReceiveChannelHandler
 import com.simonludwig.fitnessmusicrecommender.messages.SendChannelHandler
-import io.flutter.embedding.android.FlutterFragmentActivity
+import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 
-class MainActivity : FlutterFragmentActivity() {
+class MainActivity : AudioServiceFragmentActivity() {
 
     private val ioScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private lateinit var sendChannelHandler: SendChannelHandler

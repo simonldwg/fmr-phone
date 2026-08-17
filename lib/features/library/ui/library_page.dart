@@ -1,5 +1,7 @@
 import 'package:fitness_music_recommender/features/library/domain/models/album_short.dart';
+import 'package:fitness_music_recommender/features/library/domain/models/song.dart';
 import 'package:fitness_music_recommender/features/library/ui/widgets/artwork_image.dart';
+import 'package:fitness_music_recommender/features/library/ui/widgets/pulsing_play_icon.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -7,6 +9,7 @@ import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../common/ui/widgets/error_screen.dart';
+import '../../playback/playback_providers.dart';
 import '../data/library_providers.dart';
 
 class LibraryPage extends ConsumerWidget {
@@ -15,6 +18,7 @@ class LibraryPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final albumsAsync = ref.watch(allAlbumsProvider);
+    final currentSong = ref.watch(currentSongProvider);
 
     return FScaffold(
       header: FHeader(
@@ -38,15 +42,16 @@ class LibraryPage extends ConsumerWidget {
             onPress: () => ref.invalidate(allAlbumsProvider),
           ),
         ),
-        data: (albums) => _AlbumGrid(albums: albums),
+        data: (albums) => _AlbumGrid(albums: albums, currentSong: currentSong),
       ),
     );
   }
 }
 
 class _AlbumGrid extends StatelessWidget {
-  const _AlbumGrid({required this.albums});
+  const _AlbumGrid({required this.albums, required this.currentSong});
   final List<AlbumShort> albums;
+  final Song? currentSong;
 
   @override
   Widget build(BuildContext context) {
@@ -60,22 +65,26 @@ class _AlbumGrid extends StatelessWidget {
       mainAxisSpacing: 20,
       crossAxisSpacing: 16,
       itemCount: albums.length,
-      itemBuilder: (context, index) => _AlbumGridTile(album: albums[index]),
+      itemBuilder: (context, index) => _AlbumGridTile(
+        album: albums[index],
+        isPlaying: albums[index] == currentSong?.album,
+      ),
     );
   }
 }
 
 class _AlbumGridTile extends StatelessWidget {
-  const _AlbumGridTile({required this.album});
+  const _AlbumGridTile({required this.album, required this.isPlaying});
   final AlbumShort album;
+  final bool isPlaying;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
     final typography = context.theme.typography;
 
-    return GestureDetector(
-      onTap: () => context.push('/library/albums/${album.id}'),
+    return FTappable(
+      onPress: () => context.push('/library/albums/${album.id}'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -84,7 +93,22 @@ class _AlbumGridTile extends StatelessWidget {
             aspectRatio: 1,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: ArtworkImage(url: album.artworkUrl),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ArtworkImage(url: album.artworkUrl),
+                  // show the play icon above the album if it is currently playing
+                  if (isPlaying)
+                    Container(
+                      color: colors.background.withValues(alpha: 0.6),
+                      alignment: Alignment.center,
+                      child: PulsingPlayIcon(
+                        size: 40,
+                        color: colors.foreground,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 8),

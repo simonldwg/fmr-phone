@@ -15,7 +15,6 @@ Song _$SongFromJson(Map<String, dynamic> json) => Song(
   SongFeatures.fromJson(json['features'] as Map<String, dynamic>),
   SongGenres.fromJson(json['genres'] as Map<String, dynamic>),
   json['song_url'] as String,
-  json['artwork_url'] as String?,
 );
 
 Map<String, dynamic> _$SongToJson(Song instance) => <String, dynamic>{
@@ -27,5 +26,4 @@ Map<String, dynamic> _$SongToJson(Song instance) => <String, dynamic>{
   'features': instance.features,
   'genres': instance.genres,
   'song_url': instance.songUrl,
-  'artwork_url': instance.artworkUrl,
 };
