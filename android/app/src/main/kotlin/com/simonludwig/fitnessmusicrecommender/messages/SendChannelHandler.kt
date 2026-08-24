@@ -35,11 +35,13 @@ class SendChannelHandler(
                 ioScope.launch {
                     wearMessageManager.sendWearableMessage(WearMessage.StartExercise(useBasicExerciseScreen))
                 }
+                result.success(null)
             }
             "stopExercise" -> {
                 ioScope.launch {
                     wearMessageManager.sendWearableMessage(WearMessage.StopExercise)
                 }
+                result.success(null)
             }
             "updateCurrentSong" -> {
                 val title = call.argument<String>("title")
@@ -49,6 +51,7 @@ class SendChannelHandler(
                 ioScope.launch {
                     wearMessageManager.sendWearableMessage(WearMessage.CurrentSong(title, artist))
                 }
+                result.success(null)
             }
             else -> result.notImplemented()
         }
