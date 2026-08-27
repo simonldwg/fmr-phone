@@ -104,7 +104,9 @@ class FullPlayer extends ConsumerWidget {
                         width: 28,
                         height: 28,
                         child: FCircularProgress(
-                          style: .delta(iconStyle: .delta(color: colors.secondary)),
+                          style: .delta(
+                            iconStyle: .delta(color: colors.secondary),
+                          ),
                           size: .xl,
                         ),
                       )
