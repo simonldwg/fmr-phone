@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
 import 'package:palette_generator_master/palette_generator_master.dart';
 
-class ArtworkBackground extends StatefulWidget {
-  const ArtworkBackground({
+class ArtworkBackgroundColor extends StatefulWidget {
+  const ArtworkBackgroundColor({
     required this.artworkUrl,
     required this.fallbackColor,
     super.key,
@@ -13,10 +13,10 @@ class ArtworkBackground extends StatefulWidget {
   final Color fallbackColor;
 
   @override
-  State<ArtworkBackground> createState() => _ArtworkBackgroundState();
+  State<ArtworkBackgroundColor> createState() => _ArtworkBackgroundColorState();
 }
 
-class _ArtworkBackgroundState extends State<ArtworkBackground> {
+class _ArtworkBackgroundColorState extends State<ArtworkBackgroundColor> {
   final Map<String, Color> _cache = {};
   Color? _color;
 
@@ -27,7 +27,7 @@ class _ArtworkBackgroundState extends State<ArtworkBackground> {
   }
 
   @override
-  void didUpdateWidget(covariant ArtworkBackground old) {
+  void didUpdateWidget(covariant ArtworkBackgroundColor old) {
     super.didUpdateWidget(old);
     if (old.artworkUrl != widget.artworkUrl) _resolve(widget.artworkUrl);
   }

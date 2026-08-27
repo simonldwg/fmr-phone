@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
-import 'artwork_background.dart';
+import 'artwork_background_color.dart';
 import 'full_player.dart';
 import '../../playback_providers.dart';
 
@@ -25,7 +25,7 @@ class NowPlayingSheet extends ConsumerWidget {
     return Stack(
       children: [
         Positioned.fill(
-          child: ArtworkBackground(
+          child: ArtworkBackgroundColor(
             artworkUrl: song?.album.artworkUrl,
             fallbackColor: colors.background,
           ),

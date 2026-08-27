@@ -9,7 +9,7 @@ import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../common/ui/widgets/confirmation_dialog.dart';
-import '../../../playback/ui/widgets/artwork_background.dart';
+import '../../../playback/ui/widgets/artwork_background_color.dart';
 import '../../../playback/ui/widgets/full_player.dart';
 import '../../exercise_providers.dart';
 
@@ -62,7 +62,7 @@ class ActiveExercisePage extends ConsumerWidget {
     return Stack(
       children: [
         Positioned.fill(
-          child: ArtworkBackground(
+          child: ArtworkBackgroundColor(
             artworkUrl: currentSong?.album.artworkUrl,
             fallbackColor: colors.background,
           ),
