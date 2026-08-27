@@ -2,13 +2,13 @@ import 'package:fitness_music_recommender/features/playback/domain/controllers/p
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
-import 'package:go_router/go_router.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../../library/domain/models/song.dart';
 import '../../../library/ui/widgets/artwork_image.dart';
 import '../../domain/models/fmr_playback_state.dart';
 import '../../playback_providers.dart';
+import 'now_playing_sheet.dart';
 
 class MiniPlayer extends ConsumerWidget {
   const MiniPlayer({super.key});
@@ -40,6 +40,20 @@ class MiniPlayer extends ConsumerWidget {
       child: (song == null || playbackController == null)
           ? const SizedBox.shrink()
           : _buildMiniPlayer(context, state, song, playbackController),
+    );
+  }
+
+  void _openFullPlayer(BuildContext context) {
+    final topInset = MediaQuery.paddingOf(context).top;
+    final bottomInset = MediaQuery.paddingOf(context).bottom;
+
+    showFSheet(
+      context: context,
+      side: .btt,
+      mainAxisMaxRatio: null,
+      useRootNavigator: true,
+      builder: (context) =>
+          NowPlayingSheet(topInset: topInset, bottomInset: bottomInset),
     );
   }
 
@@ -79,7 +93,7 @@ class MiniPlayer extends ConsumerWidget {
                 behavior: HitTestBehavior.opaque,
                 onHorizontalDragEnd: processSwipe,
                 child: FTappable(
-                  onPress: () => context.go('/library/albums/${song.album.id}'),
+                  onPress: () => _openFullPlayer(context),
                   child: Row(
                     children: [
                       ClipRRect(
