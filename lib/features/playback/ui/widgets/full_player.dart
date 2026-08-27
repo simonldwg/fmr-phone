@@ -100,10 +100,13 @@ class FullPlayer extends ConsumerWidget {
                 variant: .primary,
                 onPress: playbackController.togglePlayPause,
                 child: state.loading
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: FCircularProgress(),
+                    ? SizedBox(
+                        width: 28,
+                        height: 28,
+                        child: FCircularProgress(
+                          style: .delta(iconStyle: .delta(color: colors.secondary)),
+                          size: .xl,
+                        ),
                       )
                     : Icon(
                         state.playing ? FLucideIcons.pause : FLucideIcons.play,
