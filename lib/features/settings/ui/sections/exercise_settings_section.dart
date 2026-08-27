@@ -1,4 +1,5 @@
 import 'package:fitness_music_recommender/features/common/ui/widgets/small_description_text.dart';
+import 'package:fitness_music_recommender/features/exercise/domain/models/exercise_intensity.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
@@ -39,7 +40,9 @@ class ExerciseSettingsSection extends ConsumerWidget {
           ],
         ),
         const SizedBox(height: 12),
-        const SmallDescriptionText('Wenn aktiviert, wird während des Trainings in der Smartwatch-App nur ein großer Button zum Überspringen des aktuellen Songs angezeigt.'),
+        const SmallDescriptionText(
+          'Wenn aktiviert, wird während des Trainings in der Smartwatch-App nur ein großer Button zum Überspringen des aktuellen Songs angezeigt.',
+        ),
         const SizedBox(height: 24),
         FTileGroup(
           label: const Text('Ziel-Herzfrequenzen'),
@@ -47,17 +50,19 @@ class ExerciseSettingsSection extends ConsumerWidget {
             .tile(
               prefix: const Icon(FLucideIcons.heartPulse),
               title: const Text('Moderates Training'),
-              details: Text('${settings.targetHrModerate}'),
+              details: Text(
+                '${settings.heartRateFor(ExerciseIntensity.moderate)}',
+              ),
               suffix: const Icon(FLucideIcons.chevronRight),
               onPress: () => showEditNumberValueSheet(
                 context: context,
                 title: 'Moderates Training',
                 description:
                     'Lege die Ziel-Herzfrequenz für moderates Training fest.',
-                initialValue: settings.targetHrModerate,
+                initialValue: settings.heartRateFor(ExerciseIntensity.moderate),
                 onSave: (value) => ref
                     .read(settingsControllerProvider)
-                    .updateWith(targetHrModerate: value),
+                    .updateTargetHeartRate(ExerciseIntensity.moderate, value),
                 label: 'Herzfrequenz',
                 hint: 'z.B. 139',
                 min: 80,
@@ -67,17 +72,19 @@ class ExerciseSettingsSection extends ConsumerWidget {
             .tile(
               prefix: const Icon(FLucideIcons.heartPulse),
               title: const Text('Starkes Training'),
-              details: Text('${settings.targetHrVigorous}'),
+              details: Text(
+                '${settings.heartRateFor(ExerciseIntensity.vigorous)}',
+              ),
               suffix: const Icon(FLucideIcons.chevronRight),
               onPress: () => showEditNumberValueSheet(
                 context: context,
                 title: 'Starkes Training',
                 description:
                     'Lege die Ziel-Herzfrequenz für starkes Training fest.',
-                initialValue: settings.targetHrVigorous,
+                initialValue: settings.heartRateFor(ExerciseIntensity.vigorous),
                 onSave: (value) => ref
                     .read(settingsControllerProvider)
-                    .updateWith(targetHrVigorous: value),
+                    .updateTargetHeartRate(ExerciseIntensity.vigorous, value),
                 label: 'Herzfrequenz',
                 hint: 'z.B. 147',
                 min: 80,

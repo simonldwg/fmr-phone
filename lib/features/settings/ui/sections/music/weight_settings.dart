@@ -36,7 +36,9 @@ class WeightSettings extends ConsumerWidget {
               ref.read(settingsControllerProvider).updateWith(bpmWeight: value),
         ),
         const SizedBox(height: 12),
-        const SmallDescriptionText('Gibt an, wie stark die einzelnen Parameter in der Empfehlung gewichtet werden.'),
+        const SmallDescriptionText(
+          'Gibt an, wie stark die einzelnen Parameter in der Empfehlung gewichtet werden.',
+        ),
       ],
     );
   }

@@ -15,8 +15,7 @@ class MiniPlayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Replace with method to obtain the currently active controller
-    final playbackController = ref.watch(libraryPlaybackProvider);
+    final playbackController = ref.watch(activePlaybackProvider);
     final state =
         ref.watch(playbackStateProvider).valueOrNull ??
         const FMRPlaybackState.idle();
@@ -25,8 +24,8 @@ class MiniPlayer extends ConsumerWidget {
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),
-      switchInCurve: Curves.easeOutCubic,
-      switchOutCurve: Curves.easeInCubic,
+      switchInCurve: Curves.bounceIn,
+      switchOutCurve: Curves.bounceOut,
       transitionBuilder: (child, animation) => SizeTransition(
         sizeFactor: animation,
         alignment: AlignmentDirectional(-1, -1),
@@ -38,7 +37,7 @@ class MiniPlayer extends ConsumerWidget {
           child: child,
         ),
       ),
-      child: song == null
+      child: (song == null || playbackController == null)
           ? const SizedBox.shrink()
           : _buildMiniPlayer(context, state, song, playbackController),
     );

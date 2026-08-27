@@ -1,4 +1,5 @@
 import 'package:fitness_music_recommender/features/common/ui/widgets/small_description_text.dart';
+import 'package:fitness_music_recommender/features/exercise/domain/models/exercise_intensity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
@@ -77,16 +78,22 @@ class _CalculateHrPageState extends ConsumerState<CalculateHrPage> {
       assert(widget.apiUrlFromOnboarding != null);
       final settings = SettingsDefaults.buildFromOnboarding(
         apiUrl: widget.apiUrlFromOnboarding!,
-        targetHrModerate: targetHrModerate,
-        targetHrVigorous: targetHrVigorous,
+        targetHeartRates: {
+          ExerciseIntensity.moderate: targetHrModerate,
+          ExerciseIntensity.vigorous: targetHrVigorous,
+        },
       );
       await settingsController.completeOnboarding(settings);
       if (!mounted) return;
       context.go('/exercise/overview');
     } else {
-      await settingsController.updateWith(
-        targetHrModerate: targetHrModerate,
-        targetHrVigorous: targetHrVigorous,
+      await settingsController.updateTargetHeartRate(
+        ExerciseIntensity.moderate,
+        targetHrModerate,
+      );
+      await settingsController.updateTargetHeartRate(
+        ExerciseIntensity.vigorous,
+        targetHrVigorous,
       );
       if (!mounted) return;
       context.go('/settings');
@@ -137,7 +144,9 @@ class _CalculateHrPageState extends ConsumerState<CalculateHrPage> {
           child: Column(
             mainAxisAlignment: .start,
             children: [
-              const SmallDescriptionText('Aus diesen Angaben werden die Ziel-Herzfrequenzen für moderates und starkes Training berechnet. Die Werte können in den Einstellungen später auch manuell festgelegt werden.'),
+              const SmallDescriptionText(
+                'Aus diesen Angaben werden die Ziel-Herzfrequenzen für moderates und starkes Training berechnet. Die Werte können in den Einstellungen später auch manuell festgelegt werden.',
+              ),
               const SizedBox(height: 16),
               FTextFormField(
                 control: .managed(),
@@ -175,7 +184,9 @@ class _CalculateHrPageState extends ConsumerState<CalculateHrPage> {
                 ],
               ),
               const SizedBox(height: 16),
-              const SmallDescriptionText('Die Ruheherzfrequenz kann manuell eingetragen oder aus den Gesundheitsdaten deines Smartphones ausgelesen werden.'),
+              const SmallDescriptionText(
+                'Die Ruheherzfrequenz kann manuell eingetragen oder aus den Gesundheitsdaten deines Smartphones ausgelesen werden.',
+              ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: .end,

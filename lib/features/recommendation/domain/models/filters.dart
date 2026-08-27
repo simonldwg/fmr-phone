@@ -19,16 +19,16 @@ class Filters {
   FeatureFilter voice;
 
   Filters(
-      this.genres,
-      this.songLength,
-      this.valence,
-      this.authenticity,
-      this.timeliness,
-      this.complexity,
-      this.danceability,
-      this.tonal,
-      this.voice,
-      );
+    this.genres,
+    this.songLength,
+    this.valence,
+    this.authenticity,
+    this.timeliness,
+    this.complexity,
+    this.danceability,
+    this.tonal,
+    this.voice,
+  );
 
   factory Filters.fromJson(Map<String, dynamic> json) =>
       _$FiltersFromJson(json);

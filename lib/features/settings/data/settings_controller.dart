@@ -1,6 +1,8 @@
+import 'package:fitness_music_recommender/features/recommendation/domain/models/song_selection_strategy.dart';
 import 'package:flutter/foundation.dart';
 
-import '../domain/models/filters.dart';
+import '../../exercise/domain/models/exercise_intensity.dart';
+import '../../recommendation/domain/models/filters.dart';
 import '../domain/models/fmr_settings.dart';
 import 'settings_repository.dart';
 
@@ -55,12 +57,12 @@ class SettingsController extends ChangeNotifier {
   Future<void> updateWith({
     String? apiUrl,
     bool? useBasicExerciseScreen,
-    int? targetHrModerate,
-    int? targetHrVigorous,
+    Map<ExerciseIntensity, int>? targetHeartRates,
     double? arousalWeight,
     double? bpmWeight,
     Filters? filters,
     bool? allowMultiplePlays,
+    SongSelectionStrategy? selectionStrategy,
     int? initialBpmModerate,
     int? initialBpmVigorous,
   }) {
@@ -69,16 +71,23 @@ class SettingsController extends ChangeNotifier {
       FMRSettings(
         apiUrl ?? s.apiUrl,
         useBasicExerciseScreen ?? s.useBasicExerciseScreen,
-        targetHrModerate ?? s.targetHrModerate,
-        targetHrVigorous ?? s.targetHrVigorous,
+        targetHeartRates ?? s.targetHeartRates,
         arousalWeight ?? s.arousalWeight,
         bpmWeight ?? s.bpmWeight,
         filters ?? s.filters,
         allowMultiplePlays ?? s.allowMultiplePlays,
+        selectionStrategy ?? s.selectionStrategy,
         initialBpmModerate ?? s.initialBpmModerate,
         initialBpmVigorous ?? s.initialBpmVigorous,
       ),
     );
+  }
+
+  Future<void> updateTargetHeartRate(ExerciseIntensity intensity, int bpm) {
+    final s = requireSettings;
+    final updatedMap = Map<ExerciseIntensity, int>.from(s.targetHeartRates)
+      ..[intensity] = bpm;
+    return updateWith(targetHeartRates: updatedMap);
   }
 
   Future<void> completeOnboarding(FMRSettings finalSettings) async {

@@ -3,5 +3,5 @@ import 'package:fitness_music_recommender/features/common/utils/duration_formatt
 import '../song.dart';
 
 extension SongFormatting on Song {
-  String get durationString => formatDuration(durationS);
+  String get durationString => formatDurationFromSeconds(durationS);
 }

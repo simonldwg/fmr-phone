@@ -1,6 +1,6 @@
-import 'package:fitness_music_recommender/features/playback/domain/models/sources/playback_source.dart';
+import 'package:fitness_music_recommender/features/playback/domain/sources/playback_source.dart';
 import 'package:fitness_music_recommender/features/library/domain/models/song.dart';
-import 'package:fitness_music_recommender/features/playback/domain/models/sources/playback_source_exception.dart';
+import 'package:fitness_music_recommender/features/playback/domain/sources/playback_source_exception.dart';
 
 class PlaylistSource implements PlaybackSource {
   PlaylistSource(this._playlist, {int startAt = 0}) {

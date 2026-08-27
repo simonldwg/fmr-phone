@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
 import '../../../data/settings_controller_provider.dart';
-import '../../../domain/models/filters.dart';
+import '../../../../recommendation/domain/models/filters.dart';
 import '../../widgets/setting_slider.dart';
 import '../../../../common/ui/widgets/section_title.dart';
 

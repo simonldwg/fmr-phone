@@ -1,5 +1,9 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import '../../../library/domain/models/song.dart';
 
+part 'fmr_playback_state.g.dart';
+
+@CopyWith()
 class FMRPlaybackState {
   const FMRPlaybackState({
     required this.song,
@@ -21,22 +25,6 @@ class FMRPlaybackState {
   final bool loading;
   final bool canGoNext;
   final bool canGoPrevious;
-
-  FMRPlaybackState copyWith({
-    Song? song,
-    bool? playing,
-    bool? loading,
-    bool? canGoNext,
-    bool? canGoPrevious,
-  }) {
-    return FMRPlaybackState(
-      song: song ?? this.song,
-      playing: playing ?? this.playing,
-      loading: loading ?? this.loading,
-      canGoNext: canGoNext ?? this.canGoNext,
-      canGoPrevious: canGoPrevious ?? this.canGoPrevious,
-    );
-  }
 
   @override
   bool operator ==(Object other) =>

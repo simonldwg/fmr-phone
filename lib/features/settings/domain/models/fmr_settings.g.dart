@@ -11,9 +11,7 @@ abstract class _$FMRSettingsCWProxy {
 
   FMRSettings useBasicExerciseScreen(bool useBasicExerciseScreen);
 
-  FMRSettings targetHrModerate(int targetHrModerate);
-
-  FMRSettings targetHrVigorous(int targetHrVigorous);
+  FMRSettings targetHeartRates(Map<ExerciseIntensity, int> targetHeartRates);
 
   FMRSettings arousalWeight(double arousalWeight);
 
@@ -22,6 +20,8 @@ abstract class _$FMRSettingsCWProxy {
   FMRSettings filters(Filters filters);
 
   FMRSettings allowMultiplePlays(bool allowMultiplePlays);
+
+  FMRSettings selectionStrategy(SongSelectionStrategy selectionStrategy);
 
   FMRSettings initialBpmModerate(int initialBpmModerate);
 
@@ -37,12 +37,12 @@ abstract class _$FMRSettingsCWProxy {
   FMRSettings call({
     String apiUrl,
     bool useBasicExerciseScreen,
-    int targetHrModerate,
-    int targetHrVigorous,
+    Map<ExerciseIntensity, int> targetHeartRates,
     double arousalWeight,
     double bpmWeight,
     Filters filters,
     bool allowMultiplePlays,
+    SongSelectionStrategy selectionStrategy,
     int initialBpmModerate,
     int initialBpmVigorous,
   });
@@ -63,12 +63,8 @@ class _$FMRSettingsCWProxyImpl implements _$FMRSettingsCWProxy {
       call(useBasicExerciseScreen: useBasicExerciseScreen);
 
   @override
-  FMRSettings targetHrModerate(int targetHrModerate) =>
-      call(targetHrModerate: targetHrModerate);
-
-  @override
-  FMRSettings targetHrVigorous(int targetHrVigorous) =>
-      call(targetHrVigorous: targetHrVigorous);
+  FMRSettings targetHeartRates(Map<ExerciseIntensity, int> targetHeartRates) =>
+      call(targetHeartRates: targetHeartRates);
 
   @override
   FMRSettings arousalWeight(double arousalWeight) =>
@@ -83,6 +79,10 @@ class _$FMRSettingsCWProxyImpl implements _$FMRSettingsCWProxy {
   @override
   FMRSettings allowMultiplePlays(bool allowMultiplePlays) =>
       call(allowMultiplePlays: allowMultiplePlays);
+
+  @override
+  FMRSettings selectionStrategy(SongSelectionStrategy selectionStrategy) =>
+      call(selectionStrategy: selectionStrategy);
 
   @override
   FMRSettings initialBpmModerate(int initialBpmModerate) =>
@@ -103,12 +103,12 @@ class _$FMRSettingsCWProxyImpl implements _$FMRSettingsCWProxy {
   FMRSettings call({
     Object? apiUrl = const $CopyWithPlaceholder(),
     Object? useBasicExerciseScreen = const $CopyWithPlaceholder(),
-    Object? targetHrModerate = const $CopyWithPlaceholder(),
-    Object? targetHrVigorous = const $CopyWithPlaceholder(),
+    Object? targetHeartRates = const $CopyWithPlaceholder(),
     Object? arousalWeight = const $CopyWithPlaceholder(),
     Object? bpmWeight = const $CopyWithPlaceholder(),
     Object? filters = const $CopyWithPlaceholder(),
     Object? allowMultiplePlays = const $CopyWithPlaceholder(),
+    Object? selectionStrategy = const $CopyWithPlaceholder(),
     Object? initialBpmModerate = const $CopyWithPlaceholder(),
     Object? initialBpmVigorous = const $CopyWithPlaceholder(),
   }) {
@@ -122,16 +122,11 @@ class _$FMRSettingsCWProxyImpl implements _$FMRSettingsCWProxy {
           ? _value.useBasicExerciseScreen
           // ignore: cast_nullable_to_non_nullable
           : useBasicExerciseScreen as bool,
-      targetHrModerate == const $CopyWithPlaceholder() ||
-              targetHrModerate == null
-          ? _value.targetHrModerate
+      targetHeartRates == const $CopyWithPlaceholder() ||
+              targetHeartRates == null
+          ? _value.targetHeartRates
           // ignore: cast_nullable_to_non_nullable
-          : targetHrModerate as int,
-      targetHrVigorous == const $CopyWithPlaceholder() ||
-              targetHrVigorous == null
-          ? _value.targetHrVigorous
-          // ignore: cast_nullable_to_non_nullable
-          : targetHrVigorous as int,
+          : targetHeartRates as Map<ExerciseIntensity, int>,
       arousalWeight == const $CopyWithPlaceholder() || arousalWeight == null
           ? _value.arousalWeight
           // ignore: cast_nullable_to_non_nullable
@@ -149,6 +144,11 @@ class _$FMRSettingsCWProxyImpl implements _$FMRSettingsCWProxy {
           ? _value.allowMultiplePlays
           // ignore: cast_nullable_to_non_nullable
           : allowMultiplePlays as bool,
+      selectionStrategy == const $CopyWithPlaceholder() ||
+              selectionStrategy == null
+          ? _value.selectionStrategy
+          // ignore: cast_nullable_to_non_nullable
+          : selectionStrategy as SongSelectionStrategy,
       initialBpmModerate == const $CopyWithPlaceholder() ||
               initialBpmModerate == null
           ? _value.initialBpmModerate
@@ -177,12 +177,17 @@ extension $FMRSettingsCopyWith on FMRSettings {
 FMRSettings _$FMRSettingsFromJson(Map<String, dynamic> json) => FMRSettings(
   json['apiUrl'] as String,
   json['useBasicExerciseScreen'] as bool,
-  (json['targetHrModerate'] as num).toInt(),
-  (json['targetHrVigorous'] as num).toInt(),
+  (json['targetHeartRates'] as Map<String, dynamic>).map(
+    (k, e) => MapEntry(
+      $enumDecode(_$ExerciseIntensityEnumMap, k),
+      (e as num).toInt(),
+    ),
+  ),
   (json['arousalWeight'] as num).toDouble(),
   (json['bpmWeight'] as num).toDouble(),
   Filters.fromJson(json['filters'] as Map<String, dynamic>),
   json['allowMultiplePlays'] as bool,
+  $enumDecode(_$SongSelectionStrategyEnumMap, json['selectionStrategy']),
   (json['initialBpmModerate'] as num).toInt(),
   (json['initialBpmVigorous'] as num).toInt(),
 );
@@ -191,12 +196,26 @@ Map<String, dynamic> _$FMRSettingsToJson(FMRSettings instance) =>
     <String, dynamic>{
       'apiUrl': instance.apiUrl,
       'useBasicExerciseScreen': instance.useBasicExerciseScreen,
-      'targetHrModerate': instance.targetHrModerate,
-      'targetHrVigorous': instance.targetHrVigorous,
+      'targetHeartRates': instance.targetHeartRates.map(
+        (k, e) => MapEntry(_$ExerciseIntensityEnumMap[k]!, e),
+      ),
       'arousalWeight': instance.arousalWeight,
       'bpmWeight': instance.bpmWeight,
       'filters': instance.filters,
       'allowMultiplePlays': instance.allowMultiplePlays,
+      'selectionStrategy':
+          _$SongSelectionStrategyEnumMap[instance.selectionStrategy]!,
       'initialBpmModerate': instance.initialBpmModerate,
       'initialBpmVigorous': instance.initialBpmVigorous,
     };
+
+const _$ExerciseIntensityEnumMap = {
+  ExerciseIntensity.moderate: 'moderate',
+  ExerciseIntensity.vigorous: 'vigorous',
+};
+
+const _$SongSelectionStrategyEnumMap = {
+  SongSelectionStrategy.shortest: 'shortest',
+  SongSelectionStrategy.median: 'median',
+  SongSelectionStrategy.bestMatch: 'bestMatch',
+};

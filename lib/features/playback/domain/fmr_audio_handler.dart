@@ -1,11 +1,11 @@
 import 'package:audio_service/audio_service.dart';
-import 'package:fitness_music_recommender/features/playback/domain/models/extensions/song_media_item.dart';
-import 'package:fitness_music_recommender/features/playback/domain/models/sources/playback_source.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'models/extensions/song_media_item.dart';
 import '../../library/domain/models/song.dart';
 import 'models/fmr_playback_state.dart';
+import 'sources/playback_source.dart';
 
 class FMRAudioHandler extends BaseAudioHandler {
   FMRAudioHandler(this._player) {
@@ -25,6 +25,8 @@ class FMRAudioHandler extends BaseAudioHandler {
     const FMRPlaybackState.idle(),
   );
   ValueStream<FMRPlaybackState> get state => _state;
+
+  Duration get position => _player.position;
 
   void setSource(PlaybackSource source) => _source = source;
 
@@ -119,10 +121,31 @@ class FMRAudioHandler extends BaseAudioHandler {
   @override
   Future<void> seek(Duration position) => _player.seek(position);
 
+  Future<void> _fadeOutVolume(Duration duration) async {
+    if (!_player.playing) return;
+
+    const steps = 100;
+    final stepDuration = duration ~/ steps;
+    final startVolume = _player.volume;
+    for (var i = 1; i <= steps; i++) {
+      await Future.delayed(stepDuration);
+      final v = startVolume * (1 - i / steps);
+      await _player.setVolume(v.clamp(0.0, 1.0));
+    }
+  }
+
   @override
-  Future<void> stop() async {
+  Future<void> stop({
+    bool fadeOut = false,
+    Duration fadeOutDuration = const Duration(seconds: 3),
+  }) async {
+    if (fadeOut) {
+      await _fadeOutVolume(fadeOutDuration);
+    }
     await _player.stop();
     await super.stop();
+    await _player.setVolume(1.0);
+    _state.add(FMRPlaybackState.idle());
   }
 
   Future<void> dispose() async {

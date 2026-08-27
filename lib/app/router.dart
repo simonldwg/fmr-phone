@@ -1,3 +1,4 @@
+import 'package:fitness_music_recommender/features/exercise/ui/pages/active_exercise_page.dart';
 import 'package:fitness_music_recommender/features/library/ui/pages/album_detail_page.dart';
 import 'package:fitness_music_recommender/features/settings/ui/pages/select_genre_filters_page.dart';
 import 'package:flutter/widgets.dart';
@@ -5,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/widgets/scaffold_with_nav_bar.dart';
-import '../features/exercise/ui/exercise_page.dart';
+import '../features/exercise/ui/exercise_overview_page.dart';
 import '../features/library/domain/models/song.dart';
 import '../features/library/ui/library_page.dart';
 import '../features/library/ui/pages/song_detail_page.dart';
@@ -48,6 +49,17 @@ final routerProvider = Provider<GoRouter>((ref) {
           isOnboarding: true,
           apiUrlFromOnboarding: state.extra as String?,
         ),
+      ),
+      GoRoute(
+        path: '/exercise/active',
+        builder: (context, state) => const ActiveExercisePage(),
+      ),
+      GoRoute(
+        path: '/standalone/song',
+        builder: (context, state) {
+          final song = state.extra as Song;
+          return SongDetailPage(song: song);
+        },
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>

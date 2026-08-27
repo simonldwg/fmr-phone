@@ -47,7 +47,9 @@ class ResetSettingsSection extends ConsumerWidget {
           ],
         ),
         const SizedBox(height: 12),
-        const SmallDescriptionText('Dadurch werden lediglich die App-Einstellungen gelöscht. Deine Musik bleibt erhalten.'),
+        const SmallDescriptionText(
+          'Dadurch werden lediglich die App-Einstellungen gelöscht. Deine Musik bleibt erhalten.',
+        ),
       ],
     );
   }
