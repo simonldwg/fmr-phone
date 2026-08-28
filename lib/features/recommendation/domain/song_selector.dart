@@ -20,15 +20,15 @@ class SongSelector {
       SongSelectionStrategy.bestMatch => songs[0],
     };
 
-    if(!allowMultiplePlays) _alreadyPlayed.add(selected);
+    if (!allowMultiplePlays) _alreadyPlayed.add(selected);
     return selected;
   }
 
   Song selectRandomSong(Recommendation recommendation) {
     final songs = _filterIfNecessary(recommendation.playlist);
-    final selected =  songs.sample(1)[0];
+    final selected = songs.sample(1)[0];
 
-    if(!allowMultiplePlays) _alreadyPlayed.add(selected);
+    if (!allowMultiplePlays) _alreadyPlayed.add(selected);
     return selected;
   }
 
