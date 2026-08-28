@@ -15,7 +15,7 @@ class RecommendationSource implements PlaybackSource {
     required ValueGetter<int> getCurrentHeartRate,
     required ValueGetter<Duration> getCurrentPosition,
     required double initialBpm,
-    this.minPercentagePlayedForNewRecommendation = 1 / 3,
+    this.minSecondsPlayedForNewRecommendation = 60,
   }) : _recommender = recommender,
        _songSelector = songSelector,
        _baseParams = baseParams,
@@ -29,7 +29,7 @@ class RecommendationSource implements PlaybackSource {
   final ValueGetter<int> _getCurrentHeartRate;
   final ValueGetter<Duration> _getCurrentPosition;
   final double _initialBpm;
-  final double minPercentagePlayedForNewRecommendation;
+  final double minSecondsPlayedForNewRecommendation;
   bool _forceNewRecommendation = false;
 
   Song? _currentSong;
@@ -54,7 +54,7 @@ class RecommendationSource implements PlaybackSource {
       song = _songSelector.selectRandomSong(recommendation);
     } else if (_playedEnoughForNewRecommendation() || _forceNewRecommendation) {
       // New recommendations are only generated if the song has been playing for
-      // more than minPercentagePlayedForNewRecommendation (see the code for
+      // more than minSecondsPlayedForNewRecommendation seconds (see the code for
       // _playedEnoughForNewRecommendation())
 
       final hr = _getCurrentHeartRate();
@@ -77,14 +77,8 @@ class RecommendationSource implements PlaybackSource {
   }
 
   bool _playedEnoughForNewRecommendation() {
-    final song = _currentSong;
-    if (song == null) return true;
-
-    final durationMs = song.durationS * 1000;
-    if (durationMs <= 0) return true;
-
-    final playedMs = _getCurrentPosition().inMilliseconds;
-    return (playedMs / durationMs) >= minPercentagePlayedForNewRecommendation;
+    final playedS = _getCurrentPosition().inSeconds;
+    return minSecondsPlayedForNewRecommendation <= playedS;
   }
 
   /// Useful when exercise intensities are updated and we want to generate a new
