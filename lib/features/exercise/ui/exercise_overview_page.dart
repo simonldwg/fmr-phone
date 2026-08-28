@@ -10,7 +10,7 @@ class ExerciseOverviewPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final starting = ref.watch(
-      exerciseControllerProvider.select((s) => s.isRunning),
+      exerciseControllerProvider.select((s) => s.isStarting),
     );
     final colors = context.theme.colors;
 

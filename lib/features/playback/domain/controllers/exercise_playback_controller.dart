@@ -63,8 +63,11 @@ class ExercisePlaybackController extends PlaybackController {
     await next();
   }
 
-  Future<void> stop() async {
-    await handler.stop();
+  Future<void> stop({
+    bool fadeOut = false,
+    Duration fadeOutDuration = const Duration(seconds: 3),
+  }) async {
+    await handler.stop(fadeOut: fadeOut, fadeOutDuration: fadeOutDuration);
     session.endExercise();
     _source = null;
   }

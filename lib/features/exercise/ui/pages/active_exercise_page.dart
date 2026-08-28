@@ -1,6 +1,6 @@
 import 'package:fitness_music_recommender/features/common/ui/widgets/ellipse_menu.dart';
-import 'package:fitness_music_recommender/features/common/ui/widgets/small_description_text.dart';
-import 'package:fitness_music_recommender/features/exercise/ui/widgets/exercise_stopwatch.dart';
+import 'package:fitness_music_recommender/features/exercise/domain/models/exercise.dart';
+import 'package:fitness_music_recommender/features/exercise/ui/widgets/continuous_exercise_footer.dart';
 import 'package:fitness_music_recommender/features/playback/playback_providers.dart';
 import 'package:fitness_music_recommender/features/settings/data/settings_controller_provider.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ import '../../../common/ui/widgets/confirmation_dialog.dart';
 import '../../../playback/ui/widgets/artwork_background_color.dart';
 import '../../../playback/ui/widgets/full_player.dart';
 import '../../exercise_providers.dart';
+import '../widgets/interval_exercise_footer.dart';
 
 class ActiveExercisePage extends ConsumerWidget {
   const ActiveExercisePage({super.key});
@@ -52,11 +53,10 @@ class ActiveExercisePage extends ConsumerWidget {
     }
 
     final settings = ref.watch(settingsControllerProvider).requireSettings;
-    final targetHeartRate = settings.heartRateFor(exercise.intensity);
+    final targetHeartRate = settings.heartRateFor(exercise.currentIntensity);
     final currentSong = ref.watch(currentSongProvider);
 
     final colors = context.theme.colors;
-    final typography = context.theme.typography;
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return Stack(
@@ -116,91 +116,27 @@ class ActiveExercisePage extends ConsumerWidget {
           ),
           footer: Padding(
             padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + bottomInset),
-            child: Column(
-              mainAxisSize: .min,
-              children: [
-                Row(
-                  mainAxisSize: .max,
-                  mainAxisAlignment: .start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: .start,
-                        children: [
-                          Text(
-                            'Intensität: ${exercise.intensity.label}',
-                            style: typography.body.md,
-                          ),
-                          ExerciseStopwatch(
-                            prefix: 'Training läuft seit ',
-                            startTime: exercise.startTime,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Icon(
-                      FLucideIcons.heartPulse,
-                      color: colors.primary,
-                      size: 22,
-                    ),
-                    const SizedBox(width: 8),
-                    SizedBox(
-                      width: 100,
-                      child: Column(
-                        mainAxisSize: .min,
-                        crossAxisAlignment: .start,
-                        children: [
-                          Text(
-                            heartRate != null ? '$heartRate bpm' : '--',
-                            style: typography.body.md.copyWith(
-                              fontFeatures: const [
-                                FontFeature.tabularFigures(),
-                              ],
-                            ),
-                          ),
-                          SmallDescriptionText('Ziel: $targetHeartRate bpm'),
-                        ],
-                      ),
-                    ),
-                    if (heartRate != null)
-                      Icon(
-                        (targetHeartRate > heartRate)
-                            ? FLucideIcons.arrowUpCircle
-                            : FLucideIcons.arrowDownCircle,
-                        color: colors.primary,
-                        size: 22,
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: .center,
-                  spacing: 16,
-                  children: [
-                    FButton(
-                      size: .xs,
-                      variant: .ghost,
-                      onPress: () async => {
-                        await ref
-                            .read(exerciseControllerProvider.notifier)
-                            .cycleIntensity(),
-                      },
-                      prefix: const Icon(FLucideIcons.dumbbell, size: 20),
-                      child: const Text('Intensität wechseln'),
-                    ),
-                    FButton(
-                      size: .xs,
-                      variant: .destructive,
-                      onPress: () => _confirmAndStopExercise(context, ref),
-                      prefix: const Icon(FLucideIcons.square, size: 20),
-                      child: const Text('Training beenden'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            child: switch (exercise) {
+              ContinuousExercise() => ContinuousExerciseFooter(
+                exercise: exercise,
+                heartRate: heartRate,
+                targetHeartRate: targetHeartRate,
+                onStopExercise: () => _confirmAndStopExercise(context, ref),
+                onChangeIntensity: () async => {
+                  await ref
+                      .read(exerciseControllerProvider.notifier)
+                      .cycleIntensity(),
+                },
+              ),
+              IntervalExercise() => IntervalExerciseFooter(
+                exercise: exercise,
+                heartRate: heartRate,
+                targetHeartRate: targetHeartRate,
+                onStopExercise: () => _confirmAndStopExercise(context, ref),
+              ),
+            },
           ),
-          child: Padding(
+          child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: const FullPlayer(),
           ),

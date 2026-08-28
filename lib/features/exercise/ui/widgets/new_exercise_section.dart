@@ -1,5 +1,6 @@
 import 'package:fitness_music_recommender/features/common/ui/widgets/section_title.dart';
-import 'package:fitness_music_recommender/features/exercise/domain/controllers/exercise_start_exception.dart';
+import 'package:fitness_music_recommender/features/exercise/domain/controllers/exercise_exception.dart';
+import 'package:fitness_music_recommender/features/exercise/ui/widgets/interval_exercise_form.dart';
 import 'package:fitness_music_recommender/features/settings/data/settings_controller_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,9 +43,9 @@ class _NewExerciseSectionState extends ConsumerState<NewExerciseSection> {
     try {
       await ref
           .read(exerciseControllerProvider.notifier)
-          .start(_selectedIntensity);
+          .startContinuous(_selectedIntensity);
       if (mounted) context.go('/exercise/active');
-    } on ExerciseStartException catch (e) {
+    } on ExerciseException catch (e) {
       if (mounted) {
         showFToast(
           context: context,
@@ -132,6 +133,13 @@ class _NewExerciseSectionState extends ConsumerState<NewExerciseSection> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text('Intervalltraining', style: style.titleTextStyle),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Stelle dein eigenes Intervalltraining zusammen.',
+                        style: style.subtitleTextStyle,
+                      ),
+                      const SizedBox(height: 16),
+                      const IntervalExerciseForm(),
                     ],
                   ),
                 ),

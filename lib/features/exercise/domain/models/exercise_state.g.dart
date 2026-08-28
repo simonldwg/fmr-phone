@@ -11,6 +11,8 @@ abstract class _$ExerciseStateCWProxy {
 
   ExerciseState latestHeartRate(int? latestHeartRate);
 
+  ExerciseState isStarting(bool isStarting);
+
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `ExerciseState(...).copyWith.fieldName(value)`.
   ///
@@ -18,7 +20,11 @@ abstract class _$ExerciseStateCWProxy {
   /// ```dart
   /// ExerciseState(...).copyWith(id: 12, name: "My name")
   /// ```
-  ExerciseState call({Exercise? exercise, int? latestHeartRate});
+  ExerciseState call({
+    Exercise? exercise,
+    int? latestHeartRate,
+    bool isStarting,
+  });
 }
 
 /// Callable proxy for `copyWith` functionality.
@@ -35,6 +41,9 @@ class _$ExerciseStateCWProxyImpl implements _$ExerciseStateCWProxy {
   ExerciseState latestHeartRate(int? latestHeartRate) =>
       call(latestHeartRate: latestHeartRate);
 
+  @override
+  ExerciseState isStarting(bool isStarting) => call(isStarting: isStarting);
+
   /// Creates a new instance with the provided field values.
   /// Passing `null` to a nullable field nullifies it, while `null` for a non-nullable field is ignored. To update a single field use `ExerciseState(...).copyWith.fieldName(value)`.
   ///
@@ -46,6 +55,7 @@ class _$ExerciseStateCWProxyImpl implements _$ExerciseStateCWProxy {
   ExerciseState call({
     Object? exercise = const $CopyWithPlaceholder(),
     Object? latestHeartRate = const $CopyWithPlaceholder(),
+    Object? isStarting = const $CopyWithPlaceholder(),
   }) {
     return ExerciseState(
       exercise: exercise == const $CopyWithPlaceholder()
@@ -56,6 +66,11 @@ class _$ExerciseStateCWProxyImpl implements _$ExerciseStateCWProxy {
           ? _value.latestHeartRate
           // ignore: cast_nullable_to_non_nullable
           : latestHeartRate as int?,
+      isStarting:
+          isStarting == const $CopyWithPlaceholder() || isStarting == null
+          ? _value.isStarting
+          // ignore: cast_nullable_to_non_nullable
+          : isStarting as bool,
     );
   }
 }
