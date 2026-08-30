@@ -38,4 +38,9 @@ class Song {
 
   @override
   int get hashCode => id.hashCode;
+
+  @override
+  String toString() {
+    return '$artist - $title';
+  }
 }
