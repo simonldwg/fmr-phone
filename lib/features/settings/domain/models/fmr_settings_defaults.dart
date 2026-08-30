@@ -29,7 +29,7 @@ class SettingsDefaults {
         FeatureFilter(0.0, false),
         FeatureFilter(0.0, false),
       ),
-      true, // allowMultiplePlays
+      false, // allowMultiplePlays
       SongSelectionStrategy.bestMatch,
       { // initialBpms
         ExerciseIntensity.moderate: 131,
