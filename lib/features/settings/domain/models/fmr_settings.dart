@@ -21,29 +21,30 @@ part 'fmr_settings.g.dart';
 class FMRSettings {
   String apiUrl;
   bool useBasicExerciseScreen;
+  bool disablePowerOptimization;
   Map<ExerciseIntensity, int> targetHeartRates;
   double arousalWeight;
   double bpmWeight;
   Filters filters;
   bool allowMultiplePlays;
   SongSelectionStrategy selectionStrategy;
-  int initialBpmModerate;
-  int initialBpmVigorous;
+  Map<ExerciseIntensity, int> initialBpms;
 
   FMRSettings(
     this.apiUrl,
     this.useBasicExerciseScreen,
+    this.disablePowerOptimization,
     this.targetHeartRates,
     this.arousalWeight,
     this.bpmWeight,
     this.filters,
     this.allowMultiplePlays,
     this.selectionStrategy,
-    this.initialBpmModerate,
-    this.initialBpmVigorous,
+    this.initialBpms
   );
 
   int heartRateFor(ExerciseIntensity intensity) => targetHeartRates[intensity]!;
+  int initialBpmFor(ExerciseIntensity intensity) => initialBpms[intensity]!;
 
   factory FMRSettings.fromJson(Map<String, dynamic> json) =>
       _$FMRSettingsFromJson(json);

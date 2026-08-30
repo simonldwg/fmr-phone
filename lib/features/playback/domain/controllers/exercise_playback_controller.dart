@@ -37,10 +37,7 @@ class ExercisePlaybackController extends PlaybackController {
       allowMultiplePlays: _settings.allowMultiplePlays,
     );
 
-    final initialBpm = switch (exerciseIntensity) {
-      ExerciseIntensity.moderate => _settings.initialBpmModerate,
-      ExerciseIntensity.vigorous => _settings.initialBpmVigorous,
-    }.toDouble();
+    final initialBpm = _settings.initialBpmFor(exerciseIntensity).toDouble();
 
     final source = RecommendationSource(
       recommender: recommender,

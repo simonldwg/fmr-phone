@@ -1,4 +1,5 @@
 import 'package:fitness_music_recommender/features/common/ui/widgets/small_description_text.dart';
+import 'package:fitness_music_recommender/features/exercise/domain/models/exercise_intensity.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forui/forui.dart';
@@ -13,6 +14,8 @@ class InitialValuesSettings extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(settingsControllerProvider);
     final settings = controller.requireSettings;
+    final initialBpmModerate = settings.initialBpmFor(ExerciseIntensity.moderate);
+    final initialBpmVigorous = settings.initialBpmFor(ExerciseIntensity.vigorous);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -23,17 +26,17 @@ class InitialValuesSettings extends ConsumerWidget {
             .tile(
               prefix: const Icon(FLucideIcons.metronome),
               title: const Text('BPM moderates Training'),
-              details: Text(settings.initialBpmModerate.toString()),
+              details: Text(initialBpmModerate.toString()),
               suffix: const Icon(FLucideIcons.chevronRight),
               onPress: () => showEditNumberValueSheet(
                 context: context,
                 title: 'BPM moderates Training',
                 description:
                     'Lege hier das Songtempo für moderates Training fest, das in die erste Songempfehlung zu Beginn des Trainings einfließt.',
-                initialValue: settings.initialBpmModerate,
+                initialValue: initialBpmModerate,
                 onSave: (value) => ref
                     .read(settingsControllerProvider)
-                    .updateWith(initialBpmModerate: value),
+                    .updateTargetHeartRate(ExerciseIntensity.moderate, value),
                 label: 'Songtempo (BPM)',
                 hint: 'z.B. 131',
                 min: 50,
@@ -43,17 +46,17 @@ class InitialValuesSettings extends ConsumerWidget {
             .tile(
               prefix: const Icon(FLucideIcons.metronome),
               title: const Text('BPM starkes Training'),
-              details: Text(settings.initialBpmVigorous.toString()),
+              details: Text(initialBpmVigorous.toString()),
               suffix: const Icon(FLucideIcons.chevronRight),
               onPress: () => showEditNumberValueSheet(
                 context: context,
                 title: 'BPM starkes Training',
                 description:
                     'Lege hier das Songtempo für starkes Training fest, das in die erste Songempfehlung zu Beginn des Trainings einfließt.',
-                initialValue: settings.initialBpmVigorous,
+                initialValue: initialBpmVigorous,
                 onSave: (value) => ref
                     .read(settingsControllerProvider)
-                    .updateWith(initialBpmVigorous: value),
+                    .updateTargetHeartRate(ExerciseIntensity.vigorous, value),
                 label: 'Songtempo (BPM)',
                 hint: 'z.B. 136',
                 min: 50,

@@ -73,6 +73,7 @@ class ExerciseController extends Notifier<ExerciseState> {
 
     await wear.sendStartExerciseMessage(
       useBasicExerciseScreen: settings.useBasicExerciseScreen,
+      disablePowerOptimization: settings.disablePowerOptimization
     );
 
     // try waiting for the first heart rate value

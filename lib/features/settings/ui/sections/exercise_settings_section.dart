@@ -23,29 +23,8 @@ class ExerciseSettingsSection extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SectionTitle('Trainingseinstellungen'),
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                'Einfacher Trainingsbildschirm (Uhr)',
-                style: theme.typography.body.xs,
-              ),
-            ),
-            FSwitch(
-              value: settings.useBasicExerciseScreen,
-              onChange: (value) => ref
-                  .read(settingsControllerProvider)
-                  .updateWith(useBasicExerciseScreen: value),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        const SmallDescriptionText(
-          'Wenn aktiviert, wird während des Trainings in der Smartwatch-App nur ein großer Button zum Überspringen des aktuellen Songs angezeigt.',
-        ),
-        const SizedBox(height: 24),
+        const SectionTitle('Ziel-Herzfrequenzen', smallSize: true),
         FTileGroup(
-          label: const Text('Ziel-Herzfrequenzen'),
           children: [
             .tile(
               prefix: const Icon(FLucideIcons.heartPulse),
@@ -98,6 +77,49 @@ class ExerciseSettingsSection extends ConsumerWidget {
               suffix: const Icon(FLucideIcons.chevronRight),
             ),
           ],
+        ),
+        const SizedBox(height: 16),
+        const SectionTitle('Erweitert', smallSize: true),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'Einfacher Trainingsbildschirm (Uhr)',
+                style: theme.typography.body.xs,
+              ),
+            ),
+            FSwitch(
+              value: settings.useBasicExerciseScreen,
+              onChange: (value) => ref
+                  .read(settingsControllerProvider)
+                  .updateWith(useBasicExerciseScreen: value),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        const SmallDescriptionText(
+          'Wenn aktiviert, wird während des Trainings in der Smartwatch-App nur ein großer Button zum Überspringen des aktuellen Songs angezeigt.',
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'Batterieoptimierungen ausschalten',
+                style: theme.typography.body.xs,
+              ),
+            ),
+            FSwitch(
+              value: settings.disablePowerOptimization,
+              onChange: (value) => ref
+                  .read(settingsControllerProvider)
+                  .updateWith(disablePowerOptimization: value),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        const SmallDescriptionText(
+          'Wenn der Schalter aktiviert ist, werden auf der Uhr Stromsparmaßnahmen deaktiviert, z.B. die Inaktivität des Bildschirms bei Nichtgebrauch. Dies kann insbesondere bei Versuchen hilfreich sein, um die Häufigkeit, mit der die Uhr Gesundheitsdaten verschickt, zu erhöhen. Wichtig: Dafür auf der Smartwatch allerdings auch den Schalter "App-Aktivität bei Nichtnutzung stoppen" deaktivieren.',
         ),
       ],
     );

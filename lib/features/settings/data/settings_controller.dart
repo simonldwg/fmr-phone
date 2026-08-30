@@ -57,28 +57,28 @@ class SettingsController extends ChangeNotifier {
   Future<void> updateWith({
     String? apiUrl,
     bool? useBasicExerciseScreen,
+    bool? disablePowerOptimization,
     Map<ExerciseIntensity, int>? targetHeartRates,
     double? arousalWeight,
     double? bpmWeight,
     Filters? filters,
     bool? allowMultiplePlays,
     SongSelectionStrategy? selectionStrategy,
-    int? initialBpmModerate,
-    int? initialBpmVigorous,
+    Map<ExerciseIntensity, int>? initialBpms,
   }) {
     final s = requireSettings;
     return update(
       FMRSettings(
         apiUrl ?? s.apiUrl,
         useBasicExerciseScreen ?? s.useBasicExerciseScreen,
+        disablePowerOptimization ?? s.disablePowerOptimization,
         targetHeartRates ?? s.targetHeartRates,
         arousalWeight ?? s.arousalWeight,
         bpmWeight ?? s.bpmWeight,
         filters ?? s.filters,
         allowMultiplePlays ?? s.allowMultiplePlays,
         selectionStrategy ?? s.selectionStrategy,
-        initialBpmModerate ?? s.initialBpmModerate,
-        initialBpmVigorous ?? s.initialBpmVigorous,
+        initialBpms ?? s.initialBpms
       ),
     );
   }
@@ -88,6 +88,13 @@ class SettingsController extends ChangeNotifier {
     final updatedMap = Map<ExerciseIntensity, int>.from(s.targetHeartRates)
       ..[intensity] = bpm;
     return updateWith(targetHeartRates: updatedMap);
+  }
+
+  Future<void> updateInitialBpm(ExerciseIntensity intensity, int bpm) {
+    final s = requireSettings;
+    final updatedMap = Map<ExerciseIntensity, int>.from(s.initialBpms)
+      ..[intensity] = bpm;
+    return updateWith(initialBpms: updatedMap);
   }
 
   Future<void> completeOnboarding(FMRSettings finalSettings) async {

@@ -32,8 +32,9 @@ class SendChannelHandler(
         when (call.method) {
             "startExercise" -> {
                 val useBasicExerciseScreen = call.argument<Boolean>("useBasicExerciseScreen") ?: false
+                val disablePowerOptimization = call.argument<Boolean>("disablePowerOptimization") ?: false
                 ioScope.launch {
-                    wearMessageManager.sendWearableMessage(WearMessage.StartExercise(useBasicExerciseScreen))
+                    wearMessageManager.sendWearableMessage(WearMessage.StartExercise(useBasicExerciseScreen, disablePowerOptimization))
                 }
                 result.success(null)
             }

@@ -6,13 +6,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlin.time.ExperimentalTime
 
 class PhoneListenerService : BaseListenerService() {
 
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
+    @OptIn(ExperimentalTime::class)
     override fun processMessage(message: WearMessage) {
-
         val map: Map<String, Any> = when (message) {
             is WearMessage.HeartRate        -> mapOf("type" to "HeartRate", "bpm" to message.bpm)
             is WearMessage.ExerciseStarted  -> mapOf("type" to "ExerciseStarted")
@@ -20,12 +21,27 @@ class PhoneListenerService : BaseListenerService() {
             is WearMessage.ExerciseStopped  -> mapOf("type" to "ExerciseStopped")
             is WearMessage.PlayPause        -> mapOf("type" to "PlayPause")
             is WearMessage.NextSong         -> mapOf("type" to "NextSong")
+            is WearMessage.StepsPerMinute   -> mapOf(
+                "type" to "StepsPerMinute",
+                "steps" to message.steps
+            )
+            is WearMessage.StepsPerMinuteStats -> mapOf(
+                "type" to "StepsPerMinuteStats",
+                "min" to message.min,
+                "max" to message.max,
+                "average" to message.average,
+                "startTime" to message.startTime.toString(),
+                "endTime" to message.endTime.toString()
+            )
+            is WearMessage.RunningStepsTotal -> mapOf(
+                "type" to "RunningStepsTotal",
+                "steps" to message.steps
+            )
             else -> {
                 Log.e(LOG_TAG, "Message type not implemented: $message")
                 return
             }
         }
-
         scope.launch {
             WearMessageBus.emit(map)
         }

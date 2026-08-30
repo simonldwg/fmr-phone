@@ -13,13 +13,15 @@ class WearRepository {
   late final Stream<WearMessage> messages = _receiveChannel
       .receiveBroadcastStream()
       .cast<Map<Object?, Object?>>()
-      .map((raw) => WearMessage.fromMap(raw.cast<String, dynamic>()));
+      .map((raw) => WearMessage.fromJson(raw.cast<String, dynamic>()));
 
   Future<void> sendStartExerciseMessage({
-    bool useBasicExerciseScreen = false,
+    required bool useBasicExerciseScreen,
+    required bool disablePowerOptimization
   }) async {
     await _sendChannel.invokeMethod('startExercise', {
       'useBasicExerciseScreen': useBasicExerciseScreen,
+      'disablePowerOptimization': disablePowerOptimization
     });
   }
 
