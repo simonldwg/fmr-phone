@@ -1,3 +1,4 @@
+import 'package:fitness_music_recommender/features/logging/logging_providers.dart';
 import 'package:fitness_music_recommender/features/playback/domain/controllers/exercise_playback_controller.dart';
 import 'package:fitness_music_recommender/features/playback/playback_session.dart';
 import 'package:fitness_music_recommender/features/recommendation/recommendation_providers.dart';
@@ -40,6 +41,7 @@ final exercisePlaybackProvider = Provider<ExercisePlaybackController>(
     ref.watch(playbackSessionProvider.notifier),
     ref.watch(settingsControllerProvider).requireSettings,
     ref.watch(recommendationRepositoryProvider),
+    ref.watch(exerciseLoggerProvider),
   ),
 );
 

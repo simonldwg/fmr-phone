@@ -1,5 +1,6 @@
 package com.simonludwig.fitnessmusicrecommender.messages
 
+import com.simonludwig.fitnessmusicrecommender.util.toLocalString
 import io.flutter.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,8 +31,9 @@ class PhoneListenerService : BaseListenerService() {
                 "min" to message.min,
                 "max" to message.max,
                 "average" to message.average,
-                "startTime" to message.startTime.toString(),
-                "endTime" to message.endTime.toString()
+                // the phone expects local ISO strings, but the watch sends UTC strings
+                "startTime" to message.startTime.toLocalString(),
+                "endTime" to message.endTime.toLocalString()
             )
             is WearMessage.RunningStepsTotal -> mapOf(
                 "type" to "RunningStepsTotal",

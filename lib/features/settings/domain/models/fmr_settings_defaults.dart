@@ -14,7 +14,7 @@ class SettingsDefaults {
     return FMRSettings(
       apiUrl,
       false, // useBasicExerciseScreen
-      false,  // disablePowerOptimization
+      false, // disablePowerOptimization
       targetHeartRates,
       1.0, // arousalWeight
       1.0, // bpmWeight
@@ -31,10 +31,11 @@ class SettingsDefaults {
       ),
       false, // allowMultiplePlays
       SongSelectionStrategy.bestMatch,
-      { // initialBpms
+      {
+        // initialBpms
         ExerciseIntensity.moderate: 131,
-        ExerciseIntensity.vigorous: 136
-      }
+        ExerciseIntensity.vigorous: 136,
+      },
     );
   }
 }

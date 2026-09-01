@@ -17,11 +17,11 @@ class WearRepository {
 
   Future<void> sendStartExerciseMessage({
     required bool useBasicExerciseScreen,
-    required bool disablePowerOptimization
+    required bool disablePowerOptimization,
   }) async {
     await _sendChannel.invokeMethod('startExercise', {
       'useBasicExerciseScreen': useBasicExerciseScreen,
-      'disablePowerOptimization': disablePowerOptimization
+      'disablePowerOptimization': disablePowerOptimization,
     });
   }
 

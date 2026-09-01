@@ -40,7 +40,7 @@ class FMRSettings {
     this.filters,
     this.allowMultiplePlays,
     this.selectionStrategy,
-    this.initialBpms
+    this.initialBpms,
   );
 
   int heartRateFor(ExerciseIntensity intensity) => targetHeartRates[intensity]!;

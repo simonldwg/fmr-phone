@@ -40,7 +40,7 @@ class ActiveExercisePage extends ConsumerWidget {
     // overview page
     ref.listen(exerciseControllerProvider, (previous, next) {
       if ((previous?.isRunning ?? false) && !next.isRunning) {
-        context.go('/exercise/overview');
+        context.go('/exercise/summary');
       }
     });
 

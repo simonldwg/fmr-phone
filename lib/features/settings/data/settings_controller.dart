@@ -78,7 +78,7 @@ class SettingsController extends ChangeNotifier {
         filters ?? s.filters,
         allowMultiplePlays ?? s.allowMultiplePlays,
         selectionStrategy ?? s.selectionStrategy,
-        initialBpms ?? s.initialBpms
+        initialBpms ?? s.initialBpms,
       ),
     );
   }

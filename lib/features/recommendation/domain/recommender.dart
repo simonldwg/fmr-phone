@@ -32,11 +32,11 @@ class Recommender {
     return previous * (1 + weight * deviation);
   }
 
-  Future<Recommendation> recommendFromHeartRate({
+  Future<(RecommendationParams, Recommendation)> recommendFromHeartRate({
     required int currentHr,
     required Song previousSong,
     required RecommendationParams params,
-  }) {
+  }) async {
     // deviation of the current HR from the target HR
     double r = _relativeDeviation(currentHr);
 
@@ -56,13 +56,14 @@ class Recommender {
     final requestParams = params.withFeatures(arousal: arousalNew, bpm: bpmNew);
 
     // fetch recommendation
-    return _repository.fetchRecommendation(requestParams);
+    final recommendation = await _repository.fetchRecommendation(requestParams);
+    return (requestParams, recommendation);
   }
 
-  Future<Recommendation> recommendInitial({
+  Future<(RecommendationParams, Recommendation)> recommendInitial({
     required double bpmStart,
     required RecommendationParams params,
-  }) {
+  }) async {
     // Recommending the first song of an exercise is static. This is because
     // the deviation from the current HR to the target HR might be too large
     // at the start of the exercise (for example, 50%), which causes the
@@ -71,6 +72,7 @@ class Recommender {
     final requestParams = params.withFeatures(bpm: bpmStart);
 
     // fetch recommendation
-    return _repository.fetchRecommendation(requestParams);
+    final recommendation = await _repository.fetchRecommendation(requestParams);
+    return (requestParams, recommendation);
   }
 }

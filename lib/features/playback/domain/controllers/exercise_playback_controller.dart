@@ -5,7 +5,11 @@ import 'package:fitness_music_recommender/features/settings/domain/models/fmr_se
 import 'package:flutter/foundation.dart';
 
 import '../../../exercise/domain/models/exercise_intensity.dart';
+import '../../../library/domain/models/song.dart';
+import '../../../logging/domain/exercise_logger.dart';
 import '../../../recommendation/domain/models/extensions/filters_to_recommendation_params.dart';
+import '../../../recommendation/domain/models/recommendation.dart';
+import '../../../recommendation/domain/models/recommendation_params.dart';
 import '../../../recommendation/domain/recommender.dart';
 import '../../../recommendation/domain/song_selector.dart';
 
@@ -13,12 +17,16 @@ class ExercisePlaybackController extends PlaybackController {
   final FMRSettings _settings;
   final RecommendationRepository _recommendationRepository;
   RecommendationSource? _source;
+  final ExerciseLogger _logger;
+
+  bool _pendingUserSkip = false;
 
   ExercisePlaybackController(
     super.handler,
     super.session,
     this._settings,
     this._recommendationRepository,
+    this._logger,
   );
 
   Future<void> startWithIntensity({
@@ -46,6 +54,7 @@ class ExercisePlaybackController extends PlaybackController {
       getCurrentHeartRate: getCurrentHeartRate,
       getCurrentPosition: () => handler.position,
       initialBpm: initialBpm,
+      onSongChanged: _handleSongChanged,
     );
     _source = source;
 
@@ -54,10 +63,38 @@ class ExercisePlaybackController extends PlaybackController {
     await handler.startPlayingFromCurrentPosition();
   }
 
+  @override
+  Future<void> next() {
+    _pendingUserSkip = true;
+    return super.next();
+  }
+
+  void _handleSongChanged({
+    required Song? previousSong,
+    required Song nextSong,
+    required Duration playedDuration,
+    RecommendationParams? requestParams,
+    Recommendation? recommendation,
+  }) {
+    _logger.logSongChanged(
+      previousSong: previousSong,
+      nextSong: nextSong,
+      playedDuration: playedDuration,
+      userSkip: _pendingUserSkip,
+      requestParams: requestParams,
+      recommendation: recommendation,
+    );
+    _pendingUserSkip = false;
+  }
+
   Future<void> updateTargetIntensity(ExerciseIntensity intensity) async {
     _source?.updateTargetHeartRate(_settings.heartRateFor(intensity));
     _source?.forceNewRecommendationOnNextSong();
-    await next();
+
+    // we don't use next() here because this isn't a skip initiated by the
+    // user, which is important to differentiate because we log the skipping
+    // events (see above)
+    await handler.skipToNext();
   }
 
   Future<void> stop({

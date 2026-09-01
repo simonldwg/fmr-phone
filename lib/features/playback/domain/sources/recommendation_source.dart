@@ -7,6 +7,15 @@ import '../../../recommendation/domain/models/recommendation.dart';
 import 'playback_source.dart';
 import 'playback_source_exception.dart';
 
+typedef SongChangedCallback =
+    void Function({
+      required Song? previousSong,
+      required Song nextSong,
+      required Duration playedDuration,
+      RecommendationParams? requestParams,
+      Recommendation? recommendation,
+    });
+
 class RecommendationSource implements PlaybackSource {
   RecommendationSource({
     required Recommender recommender,
@@ -15,6 +24,7 @@ class RecommendationSource implements PlaybackSource {
     required ValueGetter<int> getCurrentHeartRate,
     required ValueGetter<Duration> getCurrentPosition,
     required double initialBpm,
+    this.onSongChanged,
     this.minSecondsPlayedForNewRecommendation = 60,
   }) : _recommender = recommender,
        _songSelector = songSelector,
@@ -32,6 +42,9 @@ class RecommendationSource implements PlaybackSource {
   final double minSecondsPlayedForNewRecommendation;
   bool _forceNewRecommendation = false;
 
+  /// gets called every time the song changes
+  final SongChangedCallback? onSongChanged;
+
   Song? _currentSong;
   Recommendation? _lastRecommendation;
 
@@ -40,36 +53,55 @@ class RecommendationSource implements PlaybackSource {
 
   @override
   Future<Song> next() async {
+    final previousSong = _currentSong;
     final Song song;
 
-    if (_currentSong == null) {
+    final playedDuration = previousSong != null
+        ? _getCurrentPosition()
+        : Duration.zero;
+    RecommendationParams? requestParams;
+    Recommendation? recommendation;
+
+    if (previousSong == null) {
       // First song: use the initial bpm and select a random song from the
       // playlist
 
-      final recommendation = await _recommender.recommendInitial(
+      final (params, rec) = await _recommender.recommendInitial(
         bpmStart: _initialBpm,
         params: _baseParams,
       );
-      _lastRecommendation = recommendation;
-      song = _songSelector.selectRandomSong(recommendation);
+      _lastRecommendation = rec;
+      song = _songSelector.selectRandomSong(rec);
+      requestParams = params;
+      recommendation = rec;
     } else if (_playedEnoughForNewRecommendation() || _forceNewRecommendation) {
       // New recommendations are only generated if the song has been playing for
       // more than minSecondsPlayedForNewRecommendation seconds (see the code for
       // _playedEnoughForNewRecommendation())
 
       final hr = _getCurrentHeartRate();
-      final recommendation = await _recommender.recommendFromHeartRate(
+      final (params, rec) = await _recommender.recommendFromHeartRate(
         currentHr: hr,
-        previousSong: _currentSong!,
+        previousSong: previousSong,
         params: _baseParams,
       );
-      _lastRecommendation = recommendation;
-      song = _songSelector.selectSong(recommendation);
+      _lastRecommendation = rec;
+      song = _songSelector.selectSong(rec);
+      requestParams = params;
+      recommendation = rec;
     } else {
       // Song has not been played long enough -> choose a new song from the
       // existing playlist
       song = _songSelector.selectSong(_lastRecommendation!);
     }
+
+    onSongChanged?.call(
+      previousSong: previousSong,
+      nextSong: song,
+      playedDuration: playedDuration,
+      requestParams: requestParams,
+      recommendation: recommendation,
+    );
 
     _currentSong = song;
     _forceNewRecommendation = false;

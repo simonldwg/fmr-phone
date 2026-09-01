@@ -14,8 +14,12 @@ class InitialValuesSettings extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(settingsControllerProvider);
     final settings = controller.requireSettings;
-    final initialBpmModerate = settings.initialBpmFor(ExerciseIntensity.moderate);
-    final initialBpmVigorous = settings.initialBpmFor(ExerciseIntensity.vigorous);
+    final initialBpmModerate = settings.initialBpmFor(
+      ExerciseIntensity.moderate,
+    );
+    final initialBpmVigorous = settings.initialBpmFor(
+      ExerciseIntensity.vigorous,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

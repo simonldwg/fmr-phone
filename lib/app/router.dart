@@ -1,5 +1,6 @@
 import 'package:fitness_music_recommender/features/exercise/ui/pages/active_exercise_page.dart';
 import 'package:fitness_music_recommender/features/library/ui/pages/album_detail_page.dart';
+import 'package:fitness_music_recommender/features/logging/ui/pages/exercise_summary_page.dart';
 import 'package:fitness_music_recommender/features/settings/ui/pages/select_genre_filters_page.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -71,6 +72,10 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/exercise/overview',
                 builder: (context, state) => const ExerciseOverviewPage(),
+              ),
+              GoRoute(
+                path: '/exercise/summary',
+                builder: (context, state) => const ExerciseSummaryPage(),
               ),
             ],
           ),

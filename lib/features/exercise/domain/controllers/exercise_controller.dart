@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../library/domain/models/song.dart';
+import '../../../logging/logging_providers.dart';
 import '../../../settings/data/settings_controller_provider.dart';
 import '../../../wear/domain/models/wear_message.dart';
 import '../../../wear/wear_providers.dart';
@@ -26,32 +27,49 @@ class ExerciseController extends Notifier<ExerciseState> {
   }
 
   Future<void> startContinuous(ExerciseIntensity intensity) async {
-    await _prepareAndStartPlayback(intensity);
+    await _prepareExercise();
     if (!state.isStarting) return;
 
-    state = state.copyWith(
-      exercise: ContinuousExercise(
-        intensity: intensity,
-        startTime: DateTime.now(),
-      ),
+    final exercise = ContinuousExercise(
+      intensity: intensity,
+      startTime: DateTime.now(),
     );
+
+    // set up logging
+    _setupLogging(exercise);
+
+    // update state
+    state = state.copyWith(exercise: exercise);
+
+    await _startPlayback(intensity);
   }
 
   Future<void> startInterval(List<Interval> intervals) async {
-    await _prepareAndStartPlayback(intervals.first.intensity);
+    await _prepareExercise();
     if (!state.isStarting) return;
 
     final exercise = IntervalExercise(
       intervals: intervals,
       startTime: DateTime.now(),
     );
+
+    // set up logging
+    _setupLogging(exercise);
+
+    // update state
     state = state.copyWith(exercise: exercise);
+
     _scheduleNextIntervalTransition(exercise);
+    await _startPlayback(intervals.first.intensity);
   }
 
-  Future<void> _prepareAndStartPlayback(
-    ExerciseIntensity firstIntensity,
-  ) async {
+  void _setupLogging(Exercise exercise) {
+    final logger = ref.read(exerciseLoggerProvider);
+    final settings = ref.read(settingsControllerProvider).requireSettings;
+    logger.start(settings: settings, exercise: exercise);
+  }
+
+  Future<void> _prepareExercise() async {
     final settings = ref.read(settingsControllerProvider).requireSettings;
     final wear = ref.read(wearRepositoryProvider);
 
@@ -73,7 +91,7 @@ class ExerciseController extends Notifier<ExerciseState> {
 
     await wear.sendStartExerciseMessage(
       useBasicExerciseScreen: settings.useBasicExerciseScreen,
-      disablePowerOptimization: settings.disablePowerOptimization
+      disablePowerOptimization: settings.disablePowerOptimization,
     );
 
     // try waiting for the first heart rate value
@@ -99,12 +117,13 @@ class ExerciseController extends Notifier<ExerciseState> {
     if (!state.isStarting) return;
 
     state = state.copyWith(latestHeartRate: initialHr);
+  }
 
-    // start playback
+  Future<void> _startPlayback(ExerciseIntensity firstIntensity) async {
     final playbackController = ref.read(exercisePlaybackProvider);
     await playbackController.startWithIntensity(
       exerciseIntensity: firstIntensity,
-      getCurrentHeartRate: () => state.latestHeartRate ?? initialHr,
+      getCurrentHeartRate: () => state.latestHeartRate!,
     );
   }
 
@@ -178,16 +197,35 @@ class ExerciseController extends Notifier<ExerciseState> {
 
   void _onWearMessage(WearMessage message) {
     final playbackController = ref.read(exercisePlaybackProvider);
+    final logger = ref.read(exerciseLoggerProvider);
 
     switch (message) {
       case HeartRateMessage(:final bpm):
         state = state.copyWith(latestHeartRate: bpm);
+        logger.logHeartRate(bpm);
+      case StepsPerMinuteMessage(:final steps):
+        logger.logStepsPerMinute(steps);
+      case StepsPerMinuteStatsMessage(
+        :final min,
+        :final max,
+        :final average,
+        :final startTime,
+        :final endTime,
+      ):
+        logger.logStepsPerMinuteStats(
+          min: min,
+          max: max,
+          average: average,
+          startTime: startTime,
+          endTime: endTime,
+        );
+      case RunningStepsTotalMessage(:final steps):
+        logger.logRunningStepsTotal(steps);
       case NextSongMessage():
         playbackController.next();
       case PlayPauseMessage():
         playbackController.togglePlayPause();
       case StopExerciseMessage():
-      case ExerciseStoppedMessage():
         stop();
       default:
         break;
@@ -195,13 +233,34 @@ class ExerciseController extends Notifier<ExerciseState> {
   }
 
   Future<void> stop() async {
+    final wear = ref.read(wearRepositoryProvider);
+
     _intervalTimer?.cancel();
     _intervalTimer = null;
-    await _cancelSubscriptions();
 
     await ref.read(exercisePlaybackProvider).stop();
     await ref.read(wearRepositoryProvider).sendStopExerciseMessage();
 
-    state = const ExerciseState.idle();
+    // wait for the watch to tell us that it has stopped the exercise too
+    final exerciseStopped = Completer<void>();
+    final exerciseStoppedSub = wear.messages
+        .whereType<ExerciseStoppedMessage>()
+        .listen((m) {
+          if (!exerciseStopped.isCompleted) exerciseStopped.complete();
+        });
+
+    try {
+      await exerciseStopped.future.timeout(
+        const Duration(seconds: 30),
+        onTimeout: () => throw ExerciseException(
+          'ExerciseStopped message was not received from the watch within 30s',
+        ),
+      );
+    } finally {
+      await _cancelSubscriptions();
+      ref.read(exerciseLoggerProvider).finish();
+      state = const ExerciseState.idle();
+      await exerciseStoppedSub.cancel();
+    }
   }
 }
