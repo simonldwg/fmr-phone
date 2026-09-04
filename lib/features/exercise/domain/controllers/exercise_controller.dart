@@ -141,11 +141,15 @@ class ExerciseController extends Notifier<ExerciseState> {
     _intervalTimer = Timer(nextTransition.difference(now), () async {
       if (!state.isRunning) return;
 
-      final newIntensity = exercise.currentInterval(DateTime.now())?.intensity;
-      if (newIntensity != null) {
+      final newInterval = exercise.currentInterval(DateTime.now());
+      if (newInterval != null) {
+        ref.read(exerciseLoggerProvider).logIntervalTransition(
+          intensity: newInterval.intensity,
+          plannedDuration: newInterval.duration,
+        );
         await ref
             .read(exercisePlaybackProvider)
-            .updateTargetIntensity(newIntensity);
+            .updateTargetIntensity(newInterval.intensity);
       }
 
       // force rebuild to update the UI

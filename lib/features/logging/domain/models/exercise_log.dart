@@ -65,13 +65,15 @@ class ContinuousExerciseLog extends ExerciseLog {
 @JsonSerializable(explicitToJson: true)
 class IntervalExerciseLog extends ExerciseLog {
   IntervalExerciseLog({required super.settings, required super.startTime})
-    : intervals = [];
+      : intervals = [];
   final List<IntervalLogEntry> intervals;
+
   @override
   Map<String, dynamic> toJson() => {
     'type': 'interval',
     ..._$IntervalExerciseLogToJson(this),
     ..._baseFields,
+    'intervals': intervals.map((e) => e.toJson()).toList(),
   };
 }
 
