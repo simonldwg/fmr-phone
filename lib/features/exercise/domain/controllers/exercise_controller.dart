@@ -143,10 +143,12 @@ class ExerciseController extends Notifier<ExerciseState> {
 
       final newInterval = exercise.currentInterval(DateTime.now());
       if (newInterval != null) {
-        ref.read(exerciseLoggerProvider).logIntervalTransition(
-          intensity: newInterval.intensity,
-          plannedDuration: newInterval.duration,
-        );
+        ref
+            .read(exerciseLoggerProvider)
+            .logIntervalTransition(
+              intensity: newInterval.intensity,
+              plannedDuration: newInterval.duration,
+            );
         await ref
             .read(exercisePlaybackProvider)
             .updateTargetIntensity(newInterval.intensity);

@@ -1,6 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:synchronized/synchronized.dart';
 
 import 'models/extensions/song_media_item.dart';
 import '../../library/domain/models/song.dart';
@@ -8,6 +9,8 @@ import 'models/fmr_playback_state.dart';
 import 'sources/playback_source.dart';
 
 class FMRAudioHandler extends BaseAudioHandler {
+  final _songChangeLock = Lock();
+
   FMRAudioHandler(this._player) {
     // When a playback event is emitted by just_audio, update this audio service
     _player.playbackEventStream.listen(_updateState);
@@ -15,7 +18,9 @@ class FMRAudioHandler extends BaseAudioHandler {
     // When the song is finished, play the next song
     _player.processingStateStream
         .where((s) => s == ProcessingState.completed)
-        .listen((_) => skipToNext());
+        .listen((_) async {
+          await skipToNext();
+        });
   }
 
   final AudioPlayer _player;
@@ -30,25 +35,26 @@ class FMRAudioHandler extends BaseAudioHandler {
 
   void setSource(PlaybackSource source) => _source = source;
 
-  Future<void> startPlayingFromCurrentPosition() async {
-    if (_source == null) return;
-    final song = await _source!.getCurrentSong();
-    await _playSong(song);
-  }
+  Future<void> startPlayingFromCurrentPosition() =>
+      _songChangeLock.synchronized(() async {
+        if (_source == null) return;
+        final song = await _source!.getCurrentSong();
+        await _playSong(song);
+      });
 
   @override
-  Future<void> skipToNext() async {
+  Future<void> skipToNext() => _songChangeLock.synchronized(() async {
     if (_source == null || !_source!.canGoNext()) return;
     final song = await _source!.next();
     await _playSong(song);
-  }
+  });
 
   @override
-  Future<void> skipToPrevious() async {
+  Future<void> skipToPrevious() => _songChangeLock.synchronized(() async {
     if (_source == null || !_source!.canGoPrevious()) return;
     final song = await _source!.previous();
     await _playSong(song);
-  }
+  });
 
   Future<void> _playSong(Song song) async {
     // update the current song
@@ -138,15 +144,16 @@ class FMRAudioHandler extends BaseAudioHandler {
   Future<void> stop({
     bool fadeOut = false,
     Duration fadeOutDuration = const Duration(seconds: 3),
-  }) async {
+  }) => _songChangeLock.synchronized(() async {
     if (fadeOut) {
       await _fadeOutVolume(fadeOutDuration);
     }
     await _player.stop();
     await super.stop();
     await _player.setVolume(1.0);
+    _source = null;
     _state.add(FMRPlaybackState.idle());
-  }
+  });
 
   Future<void> dispose() async {
     await _state.close();
