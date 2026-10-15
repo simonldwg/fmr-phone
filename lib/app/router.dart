@@ -27,7 +27,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/exercise/overview',
+    initialLocation: '/library',
     refreshListenable: settingsController,
     redirect: (context, state) {
       final loc = state.matchedLocation;
