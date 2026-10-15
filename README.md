@@ -48,27 +48,37 @@ You can check the installed version with `java -version`.
 ```
 To make the change permanent, add the `export` line to your `~/.bashrc` or `~/.zshrc`.
 
-3. Install the Android SDK command-line tools. Download the "Command line tools only" package for 
-   your OS from https://developer.android.com/studio#command-tools and unpack it into your SDK 
-   folder:
+3. Install the Android CLI and update it to the latest version
 ```shell
-   mkdir -p ~/Android/Sdk/cmdline-tools
-   unzip commandlinetools-*_latest.zip -d ~/Android/Sdk/cmdline-tools
-   mv ~/Android/Sdk/cmdline-tools/cmdline-tools ~/Android/Sdk/cmdline-tools/latest
-   export ANDROID_HOME="$HOME/Android/Sdk"
-   export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
+   # Linux
+   curl -fsSL https://dl.google.com/android/cli/latest/linux_x86_64/install.sh | bash
+   # macOS (with Homebrew)
+   brew tap android/tap
+   brew install android-cli
+   # Windows (with winget)
+   winget install --id Google.AndroidCLI
+
+   android update
 ```
-Note: The folder **must be named `latest`**, otherwise `sdkmanager` cannot determine the SDK root. 
-As in step 2, add the `export` lines to your shell profile.
+You can check that the installation was successful with `android -V`.
 
 4. Install the required SDK packages
 ```shell
-   sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+   android sdk install platform-tools platforms/android-36 build-tools/36.0.0 cmdline-tools/latest
 ```
-You can list all available versions with `sdkmanager --list`. Any further components required by 
-the project are downloaded automatically by Gradle during the first build.
 
-5. Point Flutter to the Android SDK and accept the licenses
+You can list all available packages with `android sdk list --all`. Any further components required by the
+project are downloaded automatically by Gradle during the first build.
+
+5. Set the SDK location and add `adb` to your `PATH`
+```shell
+   export ANDROID_HOME="$(android info sdk)"
+   export PATH="$ANDROID_HOME/platform-tools:$PATH"
+```
+As in step 2, add the `export` lines to
+your shell profile.
+
+6. Point Flutter to the Android SDK and accept the licenses
 ```shell
    flutter config --android-sdk "$ANDROID_HOME"
    flutter doctor --android-licenses
@@ -111,16 +121,25 @@ been confirmed yet.
 > `adb pair <ip>:<pairing-port>`  
 > `adb connect <ip>:<port>`
 
-4. Build and run the app in debug mode
+4. Grab the device name that you want to install the smartphone app on
 ```shell
-   flutter run
-   # If multiple devices are connected, select one with -d <device-id> (see flutter devices)
+   flutter devices
+```
+The output will provide your device name and type, such as "Pixel 9 (mobile)"`.
+
+5. Build and run the app in debug mode (replace `"Pixel 9"` with your device name or ID)
+```shell
+   flutter run -d "Pixel 9"
 ```
 This installs and starts the app with hot reload enabled. Note: The first build can take several 
 minutes since Gradle needs to download the required dependencies first.
 
-5. To build and install a proper release APK of the app that runs natively and without a Dart VM, run
+6. To build and install a proper release APK of the app that runs natively and without a Dart VM, run
 ```shell
    flutter build apk --release
    adb install -r build/app/outputs/flutter-apk/app-release.apk
 ```
+
+### Please note
+Upon startup, you have to provide the app with the correct API URL where your backend API is 
+running, including the correct port number.
