@@ -125,7 +125,7 @@ been confirmed yet.
 ```shell
    flutter devices
 ```
-The output will provide your device name and type, such as "Pixel 9 (mobile)"`.
+The output will provide your device name and type, such as `"Pixel 9 (mobile)"`.
 
 5. Build and run the app in debug mode (replace `"Pixel 9"` with your device name or ID)
 ```shell
