@@ -143,3 +143,8 @@ minutes since Gradle needs to download the required dependencies first.
 ### Please note
 Upon startup, you have to provide the app with the correct API URL where your backend API is 
 running, including the correct port number.
+
+### Other repos of this project
+* [Wear OS app](https://github.com/simonldwg/fmr-wearos)
+* [FMRAndroidCore library](https://github.com/simonldwg/fmr-android-core)
+* [Backend](https://github.com/simonldwg/fmr-backend)
